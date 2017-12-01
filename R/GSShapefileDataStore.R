@@ -39,16 +39,23 @@
 #' @author Emmanuel Blondel <emmanuel.blondel1@@gmail.com>
 #'
 GSShapefileDataStore <- R6Class("GSShapefileDataStore",
- inherit = GSDataStore,              
+ inherit = GSDataStore,
+ private = list(
+   TYPE = "Shapefile"
+ ),
  public = list(
    
-   initialize = function(xml = NULL, dataStore, description, enabled = TRUE, url){
+   initialize = function(xml = NULL, dataStore = NULL, description = "",
+                         enabled = TRUE, url){
      if(missing(xml)) xml <- NULL
      super$initialize(xml = xml, dataStore = dataStore,
                       description = description,
                       enabled = enabled)
-     self$setUrl(url)
-     self$setDefautConnectionParameters()
+     if(is.null(xml)){
+      self$setUrl(url)
+      self$setDefautConnectionParameters()
+     }
+     self$setType(private$TYPE)
    },
    
    setUrl = function(url){
