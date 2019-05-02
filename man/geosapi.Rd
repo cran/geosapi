@@ -4,7 +4,6 @@
 \name{geosapi}
 \alias{geosapi}
 \alias{geosapi-package}
-\alias{geosapi-package}
 \title{GeoServer REST API R Interface}
 \description{
 Provides an R interface to the GeoServer REST API, allowing to 
@@ -18,8 +17,8 @@ more information about the GeoServer REST API, see <http://docs.geoserver.org/st
 \tabular{ll}{
    Package: \tab geosapi\cr
    Type: \tab Package\cr
-   Version: \tab 0.3-0\cr
-   Date: \tab 2018-09-12\cr
+   Version: \tab 0.4-0\cr
+   Date: \tab 2019-05-02\cr
    License: \tab MIT\cr
    LazyLoad: \tab yes\cr
  }

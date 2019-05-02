@@ -136,7 +136,7 @@
 #'    a workspace, a datastore, providing an object of class \code{GSFeatureType},
 #'    and \code{GSLayer}
 #'  }
-#'  \item{\code{unpublishLayer(ws, ds, featureType, layer)}}{
+#'  \item{\code{unpublishLayer(ws, ds, lyr)}}{
 #'    Unpublish a web-layer (including the featureType and 'layer' resources), given
 #'    a workspace, a datastore, and a layer name
 #'  }
@@ -774,6 +774,8 @@ GSDataStoreManager <- R6Class("GSDataStoreManager",
     },
     
     #uploadShapefile
+    #NOTES:
+    #see #32 issue when contentType = "application/zip" (?)
     #---------------------------------------------------------------------------
     uploadShapefile = function(ws, ds, endpoint = "file",
                                 configure = "first", update = "append",
@@ -781,7 +783,7 @@ GSDataStoreManager <- R6Class("GSDataStoreManager",
       return(
         self$uploadData(ws, ds, endpoint, extension = "shp",
                         configure, update, filename, charset,
-                        contentType = "application/zip")
+                        contentType = "")
       )
     },
     
