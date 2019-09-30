@@ -1,4 +1,4 @@
-46fc39f03dd027526bf2cc005a8994b2 *DESCRIPTION
+99a65636a76fdfd374cea597d259c201 *DESCRIPTION
 aa201b2cd877efee21b0bd1ee54cb6d8 *LICENSE
 f1bdf6ca4dea3e1caa06f1edb8ba195c *NAMESPACE
 df0392c64ff2548054744114ed9fd703 *R/GSAbstractDBDataStore.R
@@ -25,16 +25,16 @@ b9a0aa201906a39e426a85357e807fc2 *R/GSServiceManager.R
 af69df85af853a5d5758bedf8749045a *R/GSShapefileDirectoryDataStore.R
 b831a4e0a3ad5e985d64312e0e92e148 *R/GSStyle.R
 17353d2e04b4190747bc7ad7e2f253f7 *R/GSStyleManager.R
-248f9184d3ded05f19a46999452c33ef *R/GSUtils.R
+08e6cefff2b532b89f56d718a17ed997 *R/GSUtils.R
 7cf13861e8362397b7307d491dc0dc1e *R/GSVersion.R
 56006ae29a5cb841231057b79bb28ed2 *R/GSVirtualTable.R
 abd42dff1fb8aec3a6966f439bc11d61 *R/GSVirtualTableGeometry.R
 8b6e7badb7ebb70ea5dbe28f7b8463fd *R/GSVirtualTableParameter.R
 4ebfa23d70cc55414397219027ca9e67 *R/GSWorkspace.R
-4933f47bfd7ea36796cbbff5e4f79dea *R/GSWorkspaceManager.R
-9cfa693aba38bc7a57320b78592bed73 *R/GSWorkspaceSettings.R
-017e25379bb0039c357e609898e1479a *R/geosapi.R
-5d669fe25f055d68445d2795c74b6e41 *README.md
+ec6b42fc17a3d8b5c0ca64c6e3986a48 *R/GSWorkspaceManager.R
+6473221efae9508156f02d0ccb09c39f *R/GSWorkspaceSettings.R
+4f116b2cfe1623c91bf4310bd6ed0b52 *R/geosapi.R
+b909b60bafe8cb9db77fca649de58fc0 *README.md
 f15f197b93adfd8b9b2095fdb2e2d9cd *inst/extdata/mystyle.sld
 9707023c7d5d31e4935134934d32b4ac *inst/extdata/mystyle2.sld
 544763dafff6ee0a5ba280179061722c *man/GSAbstractDBDataStore.Rd
@@ -58,7 +58,7 @@ dc37521e963860c957e0a6fbfd5ea1c4 *man/GSRESTResource.Rd
 be14c5d5eb005ac245eb1d0ab344c24a *man/GSShapefileDataStore.Rd
 7eed08277c40e4e2c07ff1f59210b5b1 *man/GSShapefileDirectoryDataStore.Rd
 6893383746287e07dc837e7a8286392d *man/GSStyleManager.Rd
-bcf0e37c6f846ddb53090ae056d39d3b *man/GSUtils.Rd
+09f19b980f62d74ec20c3a7e1dafc414 *man/GSUtils.Rd
 5016aa40fbd400d2ddb9be6acd307154 *man/GSVersion.Rd
 1c3920a318cc3868f70455821b410f13 *man/GSVirtualTable.Rd
 1fbd415ff23be9b4b0fe34308c9c369a *man/GSVirtualTableGeometry.Rd
@@ -66,7 +66,7 @@ afa01d79c2b5973478c96bdd80700f97 *man/GSVirtualTableParameter.Rd
 6f0ea2846ac1b839c682242fd401cfbf *man/GSWorkspace.Rd
 4e171f1cb6b0bd5062914d689b178742 *man/GSWorkspaceManager.Rd
 20ba8400a626ffbcb0a64471c5fbb098 *man/GSWorkspaceSettings.Rd
-6ecba6b4628847cefd40ce9b0863bd38 *man/geosapi.Rd
+e46bce3f7dabad76b56c3b746adf32aa *man/geosapi.Rd
 18ab346a1413c9c4625e6f2825295495 *tests/test-all.R
 f47857574adde973f658b49662174143 *tests/testthat/test_GSDataStore.R
 768fd2bda3bf7ba42cf017f28c70a16e *tests/testthat/test_GSDimension.R
@@ -84,4 +84,4 @@ bf36bbe5456f00a6677a818e13774d3a *tests/testthat/test_GSVirtualTable.R
 ece3c1802359ccb8319cf82d2ddb313c *tests/testthat/test_GSVirtualTableGeometry.R
 95bc3e7f37239fb50bc906f3a344e3b3 *tests/testthat/test_GSVirtualTableParameter.R
 fc58f648e7fe24d818654153caecf8a0 *tests/testthat/test_GSWorkspace.R
-a1ab2d089e7a5e7d192a6cb3ca6daf39 *tests/testthat/test_GSWorkspaceSettings.R
+a0166b24a53a3d8d45bc087b4a033059 *tests/testthat/test_GSWorkspaceSettings.R

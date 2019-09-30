@@ -1,8 +1,8 @@
 Package: geosapi
 Type: Package
 Title: GeoServer REST API R Interface
-Version: 0.4-0
-Date: 2019-05-02
+Version: 0.4-1
+Date: 2019-09-30
 Authors@R: c(person("Emmanuel", "Blondel", role = c("aut", "cre"), email = "emmanuel.blondel1@gmail.com", comment = c(ORCID = "0000-0002-5870-5762")))
 Maintainer: Emmanuel Blondel <emmanuel.blondel1@gmail.com>
 Description: Provides an R interface to the GeoServer REST API, allowing to upload 
@@ -20,7 +20,7 @@ BugReports: https://github.com/eblondel/geosapi/issues
 LazyLoad: yes
 RoxygenNote: 6.1.1
 NeedsCompilation: no
-Packaged: 2019-05-02 09:35:55 UTC; manub
+Packaged: 2019-09-30 10:57:45 UTC; manub
 Author: Emmanuel Blondel [aut, cre] (<https://orcid.org/0000-0002-5870-5762>)
 Repository: CRAN
-Date/Publication: 2019-05-02 11:30:06 UTC
+Date/Publication: 2019-09-30 11:40:02 UTC
