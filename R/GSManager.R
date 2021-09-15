@@ -25,12 +25,16 @@
 #'
 #' @section Methods:
 #' \describe{
-#'  \item{\code{new(url, user, pwd, logger)}}{
+#'  \item{\code{new(url, user, pwd, logger, keyring_backend)}}{
 #'    This method is used to instantiate a GSManager with the \code{url} of the
-#'    GeoServer and credentials to authenticate (\code{user}/\code{pwd}). By default,
-#'    the \code{logger} argument will be set to \code{NULL} (no logger). This argument
-#'    accepts two possible values: \code{INFO}: to print only geosapi logs,
-#'    \code{DEBUG}: to print geosapi and CURL logs
+#'    GeoServer and credentials to authenticate (\code{user}/\code{pwd}). 
+#'    
+#'    By default, the \code{logger} argument will be set to \code{NULL} (no logger). 
+#'    This argument accepts two possible values: \code{INFO}: to print only geosapi logs,
+#'    \code{DEBUG}: to print geosapi and CURL logs.
+#'    
+#'    The \code{keyring_backend} can be set to use a different backend for storing 
+#'    the Geoserver user password with \pkg{keyring} (Default value is 'env').
 #'  }
 #'  \item{\code{logger(type, text)}}{
 #'    Basic logger to report geosapi logs. Used internally
@@ -73,6 +77,7 @@ GSManager <- R6Class("GSManager",
   lock_objects = FALSE,
 
   private = list(
+    keyring_backend = NULL,
     keyring_service = NULL,
     user = NA
   ),
@@ -94,8 +99,15 @@ GSManager <- R6Class("GSManager",
     #manager
     url = NA,
     version = NULL,
-    initialize = function(url, user, pwd, logger = NULL){
+    initialize = function(url, user, pwd, logger = NULL,
+                          keyring_backend = 'env'){
       
+      if(!keyring_backend %in% names(keyring:::known_backends)){
+        errMsg <- sprintf("Backend '%s' is not a known keyring backend!", keyring_backend)
+        self$ERROR(errMsg)
+        stop(errMsg)
+      }
+      private$keyring_backend <- keyring:::known_backends[[keyring_backend]]$new()
       private$keyring_service <- paste0("geosapi@", url)
       
       #logger
@@ -126,7 +138,7 @@ GSManager <- R6Class("GSManager",
       }
       self$url = baseUrl
       private$user = user
-      keyring::key_set_with_value(private$keyring_service, username = user, password = pwd)
+      private$keyring_backend$set_with_value(private$keyring_service, username = user, password = pwd)
       
       #try to connect
       if(self$getClassName() == "GSManager"){
@@ -170,7 +182,7 @@ GSManager <- R6Class("GSManager",
       req <- GSUtils$GET(
         self$getUrl(), 
         private$user, 
-        keyring::key_get(service = private$keyring_service, username = private$user), 
+        private$keyring_backend$get(service = private$keyring_service, username = private$user), 
         "/", 
         self$verbose.debug
       )
@@ -200,7 +212,7 @@ GSManager <- R6Class("GSManager",
       self$INFO("Reloading GeoServer catalog")
       reloaded <- FALSE
       req <- GSUtils$POST(self$getUrl(), private$user, 
-                          keyring::key_get(service = private$keyring_service, username = private$user), 
+                          private$keyring_backend$get(service = private$keyring_service, username = private$user), 
                           "/reload",
                           content = NULL, contentType = "text/plain",
                           self$verbose.debug)
@@ -223,19 +235,19 @@ GSManager <- R6Class("GSManager",
     #---------------------------------------------------------------------------
     getWorkspaceManager = function(){
       return(GSWorkspaceManager$new(self$getUrl(), private$user, 
-                                    keyring::key_get(service = private$keyring_service, username = private$user),
+                                    private$keyring_backend$get(service = private$keyring_service, username = private$user),
                                     self$loggerType))
     },
     
     getNamespaceManager = function(){
       return(GSNamespaceManager$new(self$getUrl(), private$user, 
-                                    keyring::key_get(service = private$keyring_service, username = private$user)
+                                    private$keyring_backend$get(service = private$keyring_service, username = private$user)
                                     , self$loggerType))
     },
     
     getDataStoreManager = function(){
       return(GSDataStoreManager$new(self$getUrl(), private$user,
-                                    keyring::key_get(service = private$keyring_service, username = private$user),
+                                    private$keyring_backend$get(service = private$keyring_service, username = private$user),
                                     self$loggerType))
     }
     

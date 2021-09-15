@@ -9,14 +9,14 @@
 #' Web-Services. The package currently supports all CRUD (Create,Read,Update,Delete) 
 #' operations on GeoServer workspaces, namespaces, datastores (stores of vector data), 
 #' featuretypes, layers, styles, as well as vector data upload operations. For 
-#' more information about the GeoServer REST API, see <http://docs.geoserver.org/stable/en/user/rest/> .
+#' more information about the GeoServer REST API, see <https://docs.geoserver.org/stable/en/user/rest/> .
 #' 
 #' @details
 #'  \tabular{ll}{
 #'    Package: \tab geosapi\cr
 #'    Type: \tab Package\cr
-#'    Version: \tab 0.5\cr
-#'    Date: \tab 2020-06-05\cr
+#'    Version: \tab 0.5-1\cr
+#'    Date: \tab 2021-09-14\cr
 #'    License: \tab MIT\cr
 #'    LazyLoad: \tab yes\cr
 #'  }
