@@ -6,6 +6,8 @@
 #' @import httr
 #' @import XML
 #' @import keyring
+#' @importFrom readr read_csv
+#' @importFrom readr write_csv
 #' @export
 #' @keywords geoserver rest api
 #' @return Object of \code{\link{R6Class}} with methods for communication with
@@ -17,24 +19,10 @@
 #'    GSManager$new("http://localhost:8080/geoserver", "admin", "geoserver")
 #' }
 #'
-#' @field loggerType the type of logger
-#' @field verbose.info if geosapi logs have to be printed
-#' @field verbose.debug if curl logs have to be printed
-#' @field url the Base url of GeoServer
-#' @field version the version of Geoserver. Handled as \code{GSVersion} object
-#'
 #' @section Methods:
 #' \describe{
 #'  \item{\code{new(url, user, pwd, logger, keyring_backend)}}{
-#'    This method is used to instantiate a GSManager with the \code{url} of the
-#'    GeoServer and credentials to authenticate (\code{user}/\code{pwd}). 
 #'    
-#'    By default, the \code{logger} argument will be set to \code{NULL} (no logger). 
-#'    This argument accepts two possible values: \code{INFO}: to print only geosapi logs,
-#'    \code{DEBUG}: to print geosapi and CURL logs.
-#'    
-#'    The \code{keyring_backend} can be set to use a different backend for storing 
-#'    the Geoserver user password with \pkg{keyring} (Default value is 'env').
 #'  }
 #'  \item{\code{logger(type, text)}}{
 #'    Basic logger to report geosapi logs. Used internally
@@ -57,6 +45,9 @@
 #'  }
 #'  \item{\code{reload()}}{
 #'    Reloads the GeoServer catalog.
+#'  }
+#'  \item{\code{getSystemStatus()}}{
+#'    Get system status
 #'  }
 #'  \item{\code{getClassName()}}{
 #'    Retrieves the name of the class instance
@@ -83,22 +74,54 @@ GSManager <- R6Class("GSManager",
   ),
                      
   public = list(
-    #logger
+    
+    #' @field verbose.info if geosapi logs have to be printed
     verbose.info = FALSE,
+    #' @field verbose.debug if curl logs have to be printed
     verbose.debug = FALSE,
+    #' @field loggerType the type of logger
     loggerType = NULL,
+    
+    #'@description Prints a log message
+    #'@param type type of log, "INFO", "WARN", "ERROR"
+    #'@param text text
     logger = function(type, text){
       if(self$verbose.info){
         cat(sprintf("[geosapi][%s] %s \n", type, text))
       }
     },
+    
+    #'@description Prints an INFO log message
+    #'@param text text
     INFO = function(text){self$logger("INFO", text)},
+    
+    #'@description Prints an WARN log message
+    #'@param text text
     WARN = function(text){self$logger("WARN", text)},
+    
+    #'@description Prints an ERROR log message
+    #'@param text text
     ERROR = function(text){self$logger("ERROR", text)},
     
-    #manager
+    #' @field url the Base url of GeoServer
     url = NA,
+    #' @field version the version of Geoserver. Handled as \code{GSVersion} object
     version = NULL,
+    
+    #'@description This method is used to instantiate a GSManager with the \code{url} of the
+    #'    GeoServer and credentials to authenticate (\code{user}/\code{pwd}). 
+    #'    
+    #'    By default, the \code{logger} argument will be set to \code{NULL} (no logger). 
+    #'    This argument accepts two possible values: \code{INFO}: to print only geosapi logs,
+    #'    \code{DEBUG}: to print geosapi and CURL logs.
+    #'    
+    #'    The \code{keyring_backend} can be set to use a different backend for storing 
+    #'    the Geoserver user password with \pkg{keyring} (Default value is 'env').
+    #'@param url url
+    #'@param user user
+    #'@param pwd pwd
+    #'@param logger logger
+    #'@param keyring_backend keyring backend. Default is 'env'
     initialize = function(url, user, pwd, logger = NULL,
                           keyring_backend = 'env'){
       
@@ -155,7 +178,7 @@ GSManager <- R6Class("GSManager",
           list_of_methods <- rev(names(man))
           for(method in list_of_methods){
             methodObj <- man[[method]]
-            if(!(method %in% names(self)) && class(methodObj) == "function"){
+            if(!(method %in% names(self)) && is(methodObj,"function")){
               self[[method]] <- methodObj
               environment(self[[method]]) <- environment(self$connect)
             } 
@@ -170,14 +193,14 @@ GSManager <- R6Class("GSManager",
       
     },
     
-    #getUrl
-    #---------------------------------------------------------------------------
+    #'@description Get URL
+    #'@return the Geoserver URL
     getUrl = function(){
       return(self$url)
     },
     
-    #connect
-    #---------------------------------------------------------------------------
+    #'@description Connects to geoServer
+    #'@return \code{TRUE} if connected, raises an error otherwise
     connect = function(){
       req <- GSUtils$GET(
         self$getUrl(), 
@@ -206,8 +229,8 @@ GSManager <- R6Class("GSManager",
       return(TRUE)
     },
    
-    #reload
-    #---------------------------------------------------------------------------
+    #'@description Reloads the GeoServer catalog
+    #'@return \code{TRUE} if reloaded, \code{FALSE} otherwise
     reload = function(){
       self$INFO("Reloading GeoServer catalog")
       reloaded <- FALSE
@@ -224,31 +247,102 @@ GSManager <- R6Class("GSManager",
       }
       return(reloaded)
     },
+    
+    #'@description Get system status
+    #'@return an object of class \code{data.frame} given the date time and metrics value
+    getSystemStatus = function(){
+      self$INFO("Get system status")
+      datetime <- Sys.time()
+      req <- GSUtils$GET(self$getUrl(), private$user, 
+                         private$keyring_backend$get(service = private$keyring_service, username = private$user),
+                         "/about/system-status",
+                         contentType = "application/json",
+                         self$verbose.debug)
+      if(status_code(req) == 200){
+        self$INFO("Successfully fetched system status")
+      }else{
+        self$ERROR("Error while fetching system status")
+      }
+      content <- httr::content(req)
+      status <- list(
+        raw = do.call("rbind", lapply(content$metrics$metric, function(metric){
+          met <- data.frame(metric, stringsAsFactors = FALSE)
+          return(met)
+        }))
+      )
+      status$values = {
+        df <- cbind(time = datetime, data.frame(t(status$raw$value), stringsAsFactors = F))
+        colnames(df) <- c("TIME", status$raw$identifier)
+        df
+      }
 
-    #getClassName
-    #---------------------------------------------------------------------------
+      return(status)
+    },
+    
+    #'@description Monitors the Geoserver by launching a small shiny monitoring application
+    #'@param file file where to store monitoring results
+    #'@param append whether to append results to existing files
+    #'@param sleep sleeping interval to trigger a system status call
+    monitor = function(file = NULL, append = FALSE, sleep = 1){
+      monitor <- GSShinyMonitor$new(manager = self, file = file, append = append, sleep = sleep)
+      monitor$run()
+    },
+
+    #'@description Get class name
+    #'@return the self class name, as \code{character}
     getClassName = function(){
       return(class(self)[1])
     },
     
     #Resources GS managers
     #---------------------------------------------------------------------------
+    
+    #'@description Get Workspace manager
+    #'@return an object of class \link{GSWorkspaceManager}
     getWorkspaceManager = function(){
       return(GSWorkspaceManager$new(self$getUrl(), private$user, 
                                     private$keyring_backend$get(service = private$keyring_service, username = private$user),
                                     self$loggerType))
     },
     
+    #'@description Get Namespace manager
+    #'@return an object of class \link{GSNamespaceManager}
     getNamespaceManager = function(){
       return(GSNamespaceManager$new(self$getUrl(), private$user, 
                                     private$keyring_backend$get(service = private$keyring_service, username = private$user)
                                     , self$loggerType))
     },
     
+    #'@description Get Datastore manager
+    #'@return an object of class \link{GSDataStoreManager}
     getDataStoreManager = function(){
       return(GSDataStoreManager$new(self$getUrl(), private$user,
                                     private$keyring_backend$get(service = private$keyring_service, username = private$user),
                                     self$loggerType))
+    },
+    
+    #'@description Get Coverage store manager
+    #'@return an object of class \link{GSCoverageStoreManager}
+    getCoverageStoreManager = function(){
+      return(GSCoverageStoreManager$new(self$getUrl(), private$user,
+                                    private$keyring_backend$get(service = private$keyring_service, username = private$user),
+                                    self$loggerType))
+    },
+    
+    #'@description Get service manager
+    #'@return an object of class \link{GSServiceManager}
+    getServiceManager = function(){
+      return(GSServiceManager$new(self$getUrl(), private$user,
+                                private$keyring_backend$get(service = private$keyring_service, username = private$user),
+                                self$loggerType))      
+    },
+    
+    #'@description Get style manager
+    #'@return an object of class \link{GSStyleManager}
+    getStyleManager = function(){
+      return(GSStyleManager$new(self$getUrl(), private$user,
+                                        private$keyring_backend$get(service = private$keyring_service, username = private$user),
+                                        self$loggerType))      
     }
     
   )
