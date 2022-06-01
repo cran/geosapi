@@ -1,7 +1,7 @@
-08c5383f3a767da3ce3adc3d7cb7ff68 *DESCRIPTION
+8fb423a57c51063222a7db097880e682 *DESCRIPTION
 aa201b2cd877efee21b0bd1ee54cb6d8 *LICENSE
 5b7d13885ed48175ae757ad559a2d718 *NAMESPACE
-93a8e9c6a7d1de8d064b28bce5b69af8 *NEWS.md
+fbe3d69f773d074300fba47412930c78 *NEWS.md
 69872b08dea8abc5e06731ae4f52ec9e *R/GSAbstractCoverageStore.R
 7d15615ae5635ba95ce7572012bacd92 *R/GSAbstractDBDataStore.R
 3c1df545dc176f2465236b26389bb5dc *R/GSAbstractDataStore.R
@@ -22,7 +22,7 @@ f80a9b80f13d60d35afbe6f25c4d30e3 *R/GSInputCoverageBand.R
 1c47b57dc151135a22a69573811083df *R/GSLayer.R
 ecf08a9ae335c161bf5a56b122320674 *R/GSLayerGroup.R
 d3cb8264729646ba41f3fac24842f8d8 *R/GSLayerManager.R
-b77eef6d6d6988c112769b97a4ebe721 *R/GSManager.R
+f4dfaa140ecd946159766e50d48154dd *R/GSManager.R
 36dc9ad757f1fcf5b9ae537e4abe07e6 *R/GSMetadataLink.R
 a516466cbc8fa64332ca19b893d519b5 *R/GSNamespace.R
 bcae17656e60f969f2d5ecae85de87be *R/GSNamespaceManager.R
@@ -39,7 +39,7 @@ de395f0ace1f411a6387db42f8a81b75 *R/GSShapefileDirectoryDataStore.R
 02bfd006066aa954c14058f788f18261 *R/GSShinyMonitor.R
 0f6ce2814750ce33a1344d20c92f241d *R/GSStyle.R
 5704bdb7ded76b179a6eb2822dd4cf60 *R/GSStyleManager.R
-180ba6df1e698e79b0230ac9191c85c8 *R/GSUtils.R
+43be03b21b3878794b1464957b146cc7 *R/GSUtils.R
 9600d2f1397a80fb9e3151805a1c4e00 *R/GSVersion.R
 897a65c6138c5f5ab5ba5beb3b6da83a *R/GSVirtualTable.R
 c1a6ea9783f0be5e1269fc46b8b8d33c *R/GSVirtualTableGeometry.R
@@ -49,7 +49,7 @@ f897615c73ea31b460f27cd82f4570f2 *R/GSWorkspace.R
 55754a72d90ca4cadcb84c350b934f0b *R/GSWorkspaceSettings.R
 ae9466c7f40f9132c8f52814bfef40d1 *R/GSWorldImageCoverageStore.R
 b914f7f2abb8317be3b55bc9447d220e *R/geosapi.R
-4cc3b3516bf23909f9066c8206167141 *README.md
+4cbd5985d13d4764376c86c5db1477ef *README.md
 f15f197b93adfd8b9b2095fdb2e2d9cd *inst/extdata/mystyle.sld
 9707023c7d5d31e4935134934d32b4ac *inst/extdata/mystyle2.sld
 ffcb4cdeb48242770434109367a13721 *inst/extdata/sfdem_new.tif

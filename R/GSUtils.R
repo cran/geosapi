@@ -60,11 +60,11 @@ GSUtils$getUserToken <- function(user, pwd){
   return(token)
 }
 
-GSUtils$GET <- function(url, user, pwd, path, contentType = "text/xml", verbose = FALSE){
+GSUtils$GET <- function(url, user, pwd, path = "", contentType = "text/xml", verbose = FALSE){
   if(verbose){
     req <- with_verbose(GSUtils$GET(url, user, pwd, path))
   }else{
-    if(!grepl("^/", path)) path = paste0("/", path)
+    if(!grepl("^/", path) && path != "") path = paste0("/", path)
     url <- paste0(url, path) 
     req <- httr::GET(
       url = url,
@@ -162,7 +162,7 @@ GSUtils$getPayloadXML <- function(obj){
 GSUtils$setBbox = function(minx, miny, maxx, maxy, bbox = NULL, crs){
   
   if(!missing(bbox) & !is.null(bbox)){
-    if(class(bbox) != "matrix") stop("Bbox is not a valid bounding box matrix")
+    if(!is(bbox,"matrix")) stop("Bbox is not a valid bounding box matrix")
     if(all(dim(bbox) != c(2,2))) stop("Bbox is not a valid bounding box matrix")
     minx = bbox[1L,1L]
     miny = bbox[2L,1L]
