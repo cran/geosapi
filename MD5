@@ -1,7 +1,7 @@
-c6a8e1d2cc946579d71ec6d7badef478 *DESCRIPTION
+29cc775159d194a4ad80b7688edf59d3 *DESCRIPTION
 aa201b2cd877efee21b0bd1ee54cb6d8 *LICENSE
 5b7d13885ed48175ae757ad559a2d718 *NAMESPACE
-983bee248bc5f75f4df68bbf3fcd9df8 *NEWS.md
+d1b7338e0810d36719d2d5f9a5bf677a *NEWS.md
 69872b08dea8abc5e06731ae4f52ec9e *R/GSAbstractCoverageStore.R
 7d15615ae5635ba95ce7572012bacd92 *R/GSAbstractDBDataStore.R
 3c1df545dc176f2465236b26389bb5dc *R/GSAbstractDataStore.R
@@ -11,7 +11,7 @@ bfe7ef9d096efd75a3663ed11624a96e *R/GSArcGridCoverageStore.R
 763ce0ebbd00fc415338105670f0a5e3 *R/GSCoverageBand.R
 e4c8345797c9fd8d2c8fbace32c5f7a6 *R/GSCoverageStoreManager.R
 1a4e66e2701a7609e1cdaa45d794ac32 *R/GSCoverageView.R
-f611a5919bb010342f86fbc2fac44aa7 *R/GSDatastoreManager.R
+8a99c72f48ba55854753d820486edf44 *R/GSDatastoreManager.R
 9239c0d77133980bbc146665aa5f3109 *R/GSDimension.R
 00226c465b55a8ca9bc451df12cdf7f6 *R/GSFeatureDimension.R
 1b91406b65211d86296d4c87b34060e2 *R/GSFeatureType.R
@@ -49,11 +49,11 @@ f897615c73ea31b460f27cd82f4570f2 *R/GSWorkspace.R
 55754a72d90ca4cadcb84c350b934f0b *R/GSWorkspaceSettings.R
 ae9466c7f40f9132c8f52814bfef40d1 *R/GSWorldImageCoverageStore.R
 b914f7f2abb8317be3b55bc9447d220e *R/geosapi.R
-cf205d732ecdf8714df47124bb45bc18 *README.md
+2ffe632932fd1f57d7ce098188c7839c *README.md
 99e4be46a2d367fd9beaccb706e5244f *build/vignette.rds
 1a91688cbbecb616039818b380a280e9 *inst/doc/geosapi.R
-6c57cb9d1fc672c488e102f7a1348c4c *inst/doc/geosapi.Rmd
-032b01edde693015cad4a3008c0f8ac0 *inst/doc/geosapi.html
+5d7112c2c4f385a53e62249bc359ebd7 *inst/doc/geosapi.Rmd
+35fa0e6e0e3b6b42d40a2654e5c9346e *inst/doc/geosapi.html
 f15f197b93adfd8b9b2095fdb2e2d9cd *inst/extdata/mystyle.sld
 9707023c7d5d31e4935134934d32b4ac *inst/extdata/mystyle2.sld
 ffcb4cdeb48242770434109367a13721 *inst/extdata/sfdem_new.tif
@@ -124,4 +124,4 @@ ece3c1802359ccb8319cf82d2ddb313c *tests/testthat/test_GSVirtualTableGeometry.R
 95bc3e7f37239fb50bc906f3a344e3b3 *tests/testthat/test_GSVirtualTableParameter.R
 fc58f648e7fe24d818654153caecf8a0 *tests/testthat/test_GSWorkspace.R
 cdb1964142d2a3b994a7df0d6501d86a *tests/testthat/test_GSWorkspaceSettings.R
-6c57cb9d1fc672c488e102f7a1348c4c *vignettes/geosapi.Rmd
+5d7112c2c4f385a53e62249bc359ebd7 *vignettes/geosapi.Rmd
