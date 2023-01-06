@@ -1,7 +1,7 @@
-38911175b9a1c015ffef9176081da02c *DESCRIPTION
+f759051f0bf250f921a0f34801fe536c *DESCRIPTION
 aa201b2cd877efee21b0bd1ee54cb6d8 *LICENSE
 5b7d13885ed48175ae757ad559a2d718 *NAMESPACE
-bcb0243d84b7e8606e6dd58f3618753c *NEWS.md
+5e87150f5576fd711060e445b0363126 *NEWS.md
 69872b08dea8abc5e06731ae4f52ec9e *R/GSAbstractCoverageStore.R
 7d15615ae5635ba95ce7572012bacd92 *R/GSAbstractDBDataStore.R
 3c1df545dc176f2465236b26389bb5dc *R/GSAbstractDataStore.R
@@ -22,7 +22,7 @@ f80a9b80f13d60d35afbe6f25c4d30e3 *R/GSInputCoverageBand.R
 1c47b57dc151135a22a69573811083df *R/GSLayer.R
 ecf08a9ae335c161bf5a56b122320674 *R/GSLayerGroup.R
 d3cb8264729646ba41f3fac24842f8d8 *R/GSLayerManager.R
-d726be34dd0faf002255bef74a61b705 *R/GSManager.R
+45b50f2a5c6d339797be8d10aecf57fa *R/GSManager.R
 36dc9ad757f1fcf5b9ae537e4abe07e6 *R/GSMetadataLink.R
 a516466cbc8fa64332ca19b893d519b5 *R/GSNamespace.R
 bcae17656e60f969f2d5ecae85de87be *R/GSNamespaceManager.R
@@ -49,7 +49,7 @@ f897615c73ea31b460f27cd82f4570f2 *R/GSWorkspace.R
 55754a72d90ca4cadcb84c350b934f0b *R/GSWorkspaceSettings.R
 ae9466c7f40f9132c8f52814bfef40d1 *R/GSWorldImageCoverageStore.R
 b914f7f2abb8317be3b55bc9447d220e *R/geosapi.R
-001bb70faefce923c0018310414f0d76 *README.md
+43c89b45cadc4b5750aa5722dceac8aa *README.md
 99e4be46a2d367fd9beaccb706e5244f *build/vignette.rds
 1a91688cbbecb616039818b380a280e9 *inst/doc/geosapi.R
 5d7112c2c4f385a53e62249bc359ebd7 *inst/doc/geosapi.Rmd
