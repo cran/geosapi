@@ -1,7 +1,7 @@
-f12af0cfb560cd585c82b1e0dc9e90af *DESCRIPTION
+f51aefe7bb226c1ad65810257fefd529 *DESCRIPTION
 aa201b2cd877efee21b0bd1ee54cb6d8 *LICENSE
 5b7d13885ed48175ae757ad559a2d718 *NAMESPACE
-94d7cd431ab87d58f4164045f69b498b *NEWS.md
+7c27bafc43013e124d3c6e1542498eb8 *NEWS.md
 69872b08dea8abc5e06731ae4f52ec9e *R/GSAbstractCoverageStore.R
 7d15615ae5635ba95ce7572012bacd92 *R/GSAbstractDBDataStore.R
 3c1df545dc176f2465236b26389bb5dc *R/GSAbstractDataStore.R
@@ -38,7 +38,7 @@ a42ffdc4ffe446a6f6bb89df5957a2d2 *R/GSShapefileDataStore.R
 de395f0ace1f411a6387db42f8a81b75 *R/GSShapefileDirectoryDataStore.R
 02bfd006066aa954c14058f788f18261 *R/GSShinyMonitor.R
 0f6ce2814750ce33a1344d20c92f241d *R/GSStyle.R
-8302da340c03462227c3681c235b540b *R/GSStyleManager.R
+c3887624dd2cc4e09d0f9f57fe32e097 *R/GSStyleManager.R
 43be03b21b3878794b1464957b146cc7 *R/GSUtils.R
 a376c171e5ced2d2d94408218299ba0a *R/GSVersion.R
 897a65c6138c5f5ab5ba5beb3b6da83a *R/GSVirtualTable.R
@@ -49,7 +49,7 @@ f897615c73ea31b460f27cd82f4570f2 *R/GSWorkspace.R
 55754a72d90ca4cadcb84c350b934f0b *R/GSWorkspaceSettings.R
 ae9466c7f40f9132c8f52814bfef40d1 *R/GSWorldImageCoverageStore.R
 f3b5cfc901827537d74c700b924f9310 *R/geosapi.R
-38e92ce4e7e683bbcea429b7ac77b1ba *README.md
+ad622d0d3d2d7af658e084c891754c91 *README.md
 4f84ce77aa2e715e4078bfcae09c0d6d *build/vignette.rds
 1a91688cbbecb616039818b380a280e9 *inst/doc/geosapi.R
 5d7112c2c4f385a53e62249bc359ebd7 *inst/doc/geosapi.Rmd
