@@ -15,90 +15,11 @@ Geoserver REST API GeoPackageDataStore
 
 Geoserver REST API GeoPackageDataStore
 }
-\section{Methods inherited from \code{GSAbstractDBDataStore}}{
-
-\describe{
-   \item{\code{setDatabaseType(dbtype)}}{
-     Sets the database type, here "geopkg
-   }
-   \item{\code{setNamespace(namespace)}}{
-     Sets the datastore namespace
-   }
-   \item{\code{setHost(host)}}{
-     Sets the database host
-   }
-   \item{\code{setPort(port)}}{
-     Set the database port
-   }
-   \item{\code{setDatabase(database)}}{
-     Set the database name
-   }
-   \item{\code{setSchema(schema)}}{
-     Set the database schema
-   }
-   \item{\code{setUser(user)}}{
-     Set the database username
-   }
-   \item{\code{setPassword(password)}}{
-     Set the database password
-   }
-   \item{\code{setJndiReferenceName(jndiReferenceName)}}{
-     Set a JNDI reference name
-   }
-   \item{\code{setExposePrimaryKeys(exposePrimaryKeys)}}{
-     Set TRUE if primary keys have to be exposed to datastore, FALSE otherwise.
-   }
-   \item{\code{setMaxConnections(maxConnections)}}{
-     Set the maximum number of connections. Default is set to 10.
-   }
-   \item{\code{setMinConnections(minConnections)}}{
-     Set the minimum number of connections. Default is set to 1.
-   }
-   \item{\code{setFetchSize(fetchSize)}}{
-     Set the fetch size. Default is set to 10.
-   }
-   \item{\code{setConnectionTimeout(seconds)}}{
-     Set the connection timeout. Default is set to 20s.
-   }
-   \item{\code{setValidateConnections(validateConnections)}}{
-     Set TRUE if connections have to be validated, FALSE otherwise.
-   }
-   \item{\code{setPrimaryKeyMetadataTable(primaryKeyMetadataTable)}}{
-     Set the name of the primaryKey metadata table
-   }
-   \item{\code{setLooseBBox(looseBBox)}}{
-     Set losse bbox parameter.
-   }
-   \item{\code{setPreparedStatements(preparedStatements)}}{
-     Set prepared statements
-   }
-   \item{\code{setMaxOpenPreparedStatements(maxOpenPreparedStatements)}}{
-     Set maximum open prepared statements
-   }
-   \item{\code{setEstimatedExtends(estimatedExtends)}}{
-     Set estimatedExtend parameter
-   }
-   \item{\code{setDefautConnectionParameters()}}{
-     Set default connection parameters
-   }
-}
-}
-
-\section{Methods}{
-
-\describe{
-   \item{\code{new(xml, name, description, enabled, database)}}{
-     Instantiates a GSGeoPackageDataStore object
-   }
-}
-}
-
 \examples{
 ds <- GSGeoPackageDataStore$new(
  name = "ds", description = "des", 
  enabled = TRUE, database = NULL
 )
-
 
 }
 \author{
@@ -123,6 +44,8 @@ Emmanuel Blondel <emmanuel.blondel1@gmail.com>
 <details><summary>Inherited methods</summary>
 <ul>
 <li><span class="pkg-link" data-pkg="geosapi" data-topic="GSRESTResource" data-id="encode"><a href='../../geosapi/html/GSRESTResource.html#method-GSRESTResource-encode'><code>geosapi::GSRESTResource$encode()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="geosapi" data-topic="GSRESTResource" data-id="getClassName"><a href='../../geosapi/html/GSRESTResource.html#method-GSRESTResource-getClassName'><code>geosapi::GSRESTResource$getClassName()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="geosapi" data-topic="GSRESTResource" data-id="print"><a href='../../geosapi/html/GSRESTResource.html#method-GSRESTResource-print'><code>geosapi::GSRESTResource$print()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="geosapi" data-topic="GSAbstractStore" data-id="setDescription"><a href='../../geosapi/html/GSAbstractStore.html#method-GSAbstractStore-setDescription'><code>geosapi::GSAbstractStore$setDescription()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="geosapi" data-topic="GSAbstractStore" data-id="setEnabled"><a href='../../geosapi/html/GSAbstractStore.html#method-GSAbstractStore-setEnabled'><code>geosapi::GSAbstractStore$setEnabled()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="geosapi" data-topic="GSAbstractStore" data-id="setType"><a href='../../geosapi/html/GSAbstractStore.html#method-GSAbstractStore-setType'><code>geosapi::GSAbstractStore$setType()</code></a></span></li>
@@ -173,7 +96,7 @@ initializes an GeoPackage data store
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{xml}}{an object of class \link{XMLInternalNode-class} to create object from XML}
+\item{\code{xml}}{an object of class \link{xml_node-class} to create object from XML}
 
 \item{\code{name}}{coverage store name}
 

@@ -35,14 +35,14 @@ test_that("layer encoding/decoding",{
   
   #encoding to XML
   lyrXML <- lyr$encode()
-  expect_is(lyrXML, c("XMLInternalElementNode","XMLInternalNode","XMLAbstractNode"))
+  expect_is(lyrXML, c("xml_document", "xml_node"))
   
   #decoding from XML
   lyr2 <- GSLayer$new(xml = lyrXML)
   lyr2XML <- lyr2$encode()
   
   #check encoded XML is equal to decoded XML
-  expect_true(all(sapply(XML::compareXMLDocs(XML::xmlDoc(lyrXML), XML::xmlDoc(lyr2XML)), length) == 0))
+  testthat::expect_true(length(waldo::compare(lyrXML, lyr2XML))==0)
   
 })
 
@@ -59,7 +59,7 @@ test_that("READ layer",{
 
 test_that("READ layers",{ 
   lyrs <- gsman$getLayers()
-  expect_equal(length(lyrs), 23L)
+  expect_equal(length(lyrs), 24L)
   expect_equal(unique(sapply(lyrs, function(x){class(x)[1]})), "GSLayer")
   expect_false(unique(sapply(lyrs, function(x){x$full})))
 })
@@ -92,21 +92,14 @@ test_that("UPDATE layer",{
   lyr <- gsman$getLayer("tasmania_cities")
   expect_equal(lyr$defaultStyle$name, "capitals")
   
-  lyr$setDefaultStyle("generic")
-  lyr$delStyle("generic")
-  lyr$addStyle("capitals")
+  lyr$setQueryable(FALSE)
   updated <- gsman$updateLayer(lyr)
   lyr <- gsman$getLayer("tasmania_cities")
-  expect_equal(lyr$defaultStyle$name, "generic")
-  expect_equal(length(lyr$styles), 1L)
-  expect_is(lyr$styles[[1]], "GSStyle")
-  expect_equal(lyr$styles[[1]]$name, "capitals")
-  
-  lyr$setDefaultStyle("capitals")
-  lyr$delStyle("capitals")
+  expect_false(lyr$queryable)
+  lyr$setQueryable(TRUE)
   updated <- gsman$updateLayer(lyr)
-  expect_equal(lyr$defaultStyle$name, "capitals")
-  expect_equal(length(lyr$styles), 0)
+  lyr <- gsman$getLayer("tasmania_cities")
+  expect_true(lyr$queryable)
 })
 
 test_that("DELETE layer",{

@@ -33,10 +33,7 @@
 #'    by a \code{path} in GeoServer REST API
 #'  }
 #'  \item{\code{parseResponseXML(req)}}{
-#'    Convenience method to parse XML response from GeoServer REST API. Although package \pkg{httr}
-#'    suggests the use of \pkg{xml2} package for handling XML, \pkg{geosapi} still relies
-#'    on the package \pkg{XML}. Response from \pkg{httr} is retrieved as text, and then parsed as
-#'    XML using \code{xmlParse} function.
+#'    Convenience method to parse XML response from GeoServer REST API.
 #'  }
 #'  \item{\code{getPayloadXML(obj)}}{
 #'    Convenience method to create payload XML to send to GeoServer.
@@ -60,20 +57,36 @@ GSUtils$getUserToken <- function(user, pwd){
   return(token)
 }
 
-GSUtils$GET <- function(url, user, pwd, path = "", contentType = "text/xml", verbose = FALSE){
+GSUtils$GET <- function(url, user, pwd, path = "", contentType = "text/xml", verbose = FALSE, filename = NULL){
+  req <- NULL
   if(verbose){
-    req <- with_verbose(GSUtils$GET(url, user, pwd, path))
+    if(is.null(filename)){
+      req <- with_verbose(GSUtils$GET(url, user, pwd, path))
+    }else{
+      req <- with_verbose(GSUtils$GET(url, user, pwd, path, filename = filename))
+    }
   }else{
     if(!grepl("^/", path) && path != "") path = paste0("/", path)
-    url <- paste0(url, path) 
-    req <- httr::GET(
-      url = url,
-      add_headers(
-        "User-Agent" = GSUtils$getUserAgent(),
-        "Authorization" = paste("Basic", GSUtils$getUserToken(user, pwd)),
-        "Content-Type" = contentType
+    url <- paste0(url, path)
+    if(is.null(filename)){
+      req <- httr::GET(
+        url = url,
+        add_headers(
+          "User-Agent" = GSUtils$getUserAgent(),
+          "Authorization" = paste("Basic", GSUtils$getUserToken(user, pwd)),
+          "Content-Type" = contentType
+        )
       )
-    )
+    }else{
+      req <- httr::GET(
+        url = url,
+        add_headers(
+          "User-Agent" = GSUtils$getUserAgent(),
+          "Authorization" = paste("Basic", GSUtils$getUserToken(user, pwd))
+        ),
+        httr::write_disk(path = filename, overwrite = TRUE)
+      )
+    }
   }
   return(req)
 }
@@ -146,7 +159,7 @@ GSUtils$DELETE <- function(url, user, pwd, path, verbose = FALSE){
 }
 
 GSUtils$parseResponseXML <- function(req){
-  return(xmlParse(content(req, as = "text", encoding = "UTF-8")))
+  return(xml2::read_xml(httr::content(req, "text", encoding = "UTF-8")))
 }
 
 GSUtils$getPayloadXML <- function(obj){
@@ -177,4 +190,8 @@ GSUtils$setBbox = function(minx, miny, maxx, maxy, bbox = NULL, crs){
   out[["maxy"]] = maxy
   out[["crs"]] = crs
   return(out)
+}
+
+GSUtils$isXMLString = function(str){
+  return(length(grep("<([a-zA-Z]+:)?[a-zA-Z]+(/?>| [a-zA-Z]+=[\"'])", str)) > 0)
 }

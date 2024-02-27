@@ -15,24 +15,6 @@ Geoserver REST API GSInputCoverageBand
 
 Geoserver REST API GSInputCoverageBand
 }
-\section{Methods}{
-
-\describe{
- \item{\code{new(xml, coverageName, band)}}{
-   This method is used to instantiate a \code{GSInputCoverageBand}
- }
- \item{\code{decode(xml)}}{
-   This method is used to decode a \code{GSInputCoverageBand} from XML
- }
- \item{\code{setCoverageName(coverageName)}}{
-   Sets the coverage name
- }
- \item{\code{setBand(band)}}{
-   Sets the coverage band
- }
-}
-}
-
 \examples{
   GSInputCoverageBand$new()
 
@@ -70,6 +52,8 @@ Emmanuel Blondel <emmanuel.blondel1@gmail.com>
 <details open><summary>Inherited methods</summary>
 <ul>
 <li><span class="pkg-link" data-pkg="geosapi" data-topic="GSRESTResource" data-id="encode"><a href='../../geosapi/html/GSRESTResource.html#method-GSRESTResource-encode'><code>geosapi::GSRESTResource$encode()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="geosapi" data-topic="GSRESTResource" data-id="getClassName"><a href='../../geosapi/html/GSRESTResource.html#method-GSRESTResource-getClassName'><code>geosapi::GSRESTResource$getClassName()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="geosapi" data-topic="GSRESTResource" data-id="print"><a href='../../geosapi/html/GSRESTResource.html#method-GSRESTResource-print'><code>geosapi::GSRESTResource$print()</code></a></span></li>
 </ul>
 </details>
 }}
@@ -85,7 +69,7 @@ Initializes an object of class \link{GSInputCoverageBand}
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{xml}}{object of class \link{XMLInternalNode-class}}
+\item{\code{xml}}{object of class \link{xml_node-class}}
 
 \item{\code{coverageName}}{coverage name}
 
@@ -106,7 +90,7 @@ Decodes from XML
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{xml}}{object of class \link{XMLInternalNode-class}}
+\item{\code{xml}}{object of class \link{xml_node-class}}
 }
 \if{html}{\out{</div>}}
 }

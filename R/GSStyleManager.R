@@ -13,56 +13,19 @@
 #'    GSStyleManager$new("http://localhost:8080/geoserver", "admin", "geoserver")
 #' }
 #'
-#' @section Methods:
-#' \describe{
-#'  \item{\code{new(url, user, pwd, logger)}}{
-#'    This method is used to instantiate a GSManager with the \code{url} of the
-#'    GeoServer and credentials to authenticate (\code{user}/\code{pwd}). By default,
-#'    the \code{logger} argument will be set to \code{NULL} (no logger). This argument
-#'    accepts two possible values: \code{INFO}: to print only geosapi logs,
-#'    \code{DEBUG}: to print geosapi and CURL logs
-#'  }
-#'  \item{\code{getStyles()}}{
-#'    
-#'  }
-#'  \item{\code{getStyleNames()}}{
-#'    
-#'  }
-#'  \item{\code{getStyle(style)}}{
-#'    
-#'  }
-#'  \item{\code{createStyle(file, sldBody, name, raw, ws)}}{
-#'    
-#'  }
-#'  \item{\code{updateStyle(file, sldBody, name, raw, ws)}}{
-#'    Updates a GeoServer style. Returns \code{TRUE} if the style has been 
-#'    successfully updated, \code{FALSE} otherwise
-#'  }
-#'  \item{\code{deleteStyle(style, recurse, purge, ws)}}{
-#'    Deletes a GeoServer style given a name. Returns \code{TRUE} if the style 
-#'    has been successfully deleted, \code{FALSE} otherwise
-#'  }
-#'  \item{\code{getSLDVersion(sldBody)}}{
-#'    Get the SLD version from the XML object (of class \code{XMLInternalDocument})
-#'  }
-#'  \item{\code{getSLDBody(style, ws = NULL)}}{
-#'    Get the SLD Body given a style name. This method is only supported for
-#'    Geoserver >= 2.2.
-#'  }
-#' }
-#' 
 #' @author Emmanuel Blondel <emmanuel.blondel1@@gmail.com>
 #'
 GSStyleManager <- R6Class("GSStyleManager",
   inherit = GSManager,
-  
   public = list(
     
     #'@description Get the list of available styles. 
     #'@param ws an optional workspace name
     #'@return an object of class \code{list} containing items of class \code{\link{GSStyle}}
     getStyles = function(ws = NULL){
-      self$INFO("Fetching list of styles")
+      msg = "Fetching list of styles"
+      cli::cli_alert_info(msg)
+      self$INFO(msg)
       req_url <- "/styles.xml"
       if(!is.null(ws)) req_url <- sprintf("/workspaces/%s/styles.xml", ws)
       req <- GSUtils$GET(self$getUrl(), private$user,
@@ -71,14 +34,15 @@ GSStyleManager <- R6Class("GSStyleManager",
       styleList <- NULL
       if(status_code(req) == 200){
         styleXML <- GSUtils$parseResponseXML(req)
-        styleXMLList <- getNodeSet(styleXML, "//style")
-        styleList <- lapply(styleXMLList, function(x){
-          xml <- xmlDoc(x)
-          return(GSStyle$new(xml = xml))
-        })
-        self$INFO(sprintf("Successfully fetched %s styles", length(styleList)))
+        styleXMLList <- as(xml2::xml_find_all(styleXML, "//style"), "list")
+        styleList <- lapply(styleXMLList, GSStyle$new)
+        msg = sprintf("Successfully fetched %s styles", length(styleList))
+        cli::cli_alert_success(msg)
+        self$INFO(msg)
       }else{
-        self$ERROR("Error while fetching list of styles")
+        err = "Error while fetching list of styles"
+        cli::cli_alert_danger(err)
+        self$ERROR(err)
       }
       return(styleList)
     },
@@ -96,7 +60,9 @@ GSStyleManager <- R6Class("GSStyleManager",
     #'@param ws workspace name. Optional
     #'@return object of class \link{GSStyle}
     getStyle = function(style, ws = NULL){
-      self$INFO(sprintf("Fetching style '%s'", style))
+      msg = sprintf("Fetching style '%s'", style)
+      cli::cli_alert_info(msg)
+      self$INFO(msg)
       reqUrl <- ""
       if(!missing(ws) & !is.null(ws)){
         reqUrl <- sprintf("/workspaces/%s", ws)
@@ -109,9 +75,13 @@ GSStyleManager <- R6Class("GSStyleManager",
       if(status_code(req) == 200){
         styleXML <- GSUtils$parseResponseXML(req)
         style <- GSStyle$new(xml = styleXML)
-        self$INFO("Successfully fetched style!")
+        msg = "Successfully fetched style!"
+        cli::cli_alert_success(msg)
+        self$INFO(msg)
       }else{
-        self$ERROR("Error while fetching style")
+        err = "Error while fetching style"
+        cli::cli_alert_danger(err)
+        self$ERROR(err)
       }
       return(style)
     },
@@ -124,19 +94,27 @@ GSStyleManager <- R6Class("GSStyleManager",
     #'@param ws workspace name
     #'@return \code{TRUE} if the style has been successfully created, \code{FALSE} otherwise
     createStyle = function(file, sldBody = NULL, name, raw = FALSE, ws = NULL){
-      self$INFO(sprintf("Creating style '%s'", name))
+      msg = sprintf("Creating style '%s'", name)
+      cli::cli_alert_info(msg)
+      self$INFO(msg)
       created <- FALSE
       
       if(!missing(file)){
         content <- readChar(file, file.info(file)$size)
-        if(!isXMLString(content)){
-          stop("SLD style is not recognized XML")
+        if(!GSUtils$isXMLString(content)){
+          err = "SLD style is not recognized XML"
+          cli::cli_alert_danger(err)
+          self$ERROR(err)
+          stop(err)
         }
-        sldBody <- XML::xmlParse(content)
+        sldBody <- xml2::read_xml(content)
       }
     
-      if(!is(sldBody, "XMLInternalDocument")){
-        stop("SLD body is not an XML document object")
+      if(!is(sldBody, "xml_document")){
+        err = "SLD body is not an XML document object"
+        cli::cli_alert_danger(err)
+        self$ERROR(err)
+        stop(err)
       }
       
       contentType <- switch(self$getSLDVersion(sldBody),
@@ -145,7 +123,10 @@ GSStyleManager <- R6Class("GSStyleManager",
                             NULL
                      )
       if(is.null(contentType)){
-        stop("Not contentType specified for style creation")
+        err = "No contentType specified for style creation"
+        cli::cli_alert_danger(err)
+        self$ERROR(err)
+        stop(err)
       }
       
       reqUrl <- ""
@@ -165,10 +146,14 @@ GSStyleManager <- R6Class("GSStyleManager",
         verbose = self$verbose.debug
       )
       if(status_code(req) == 201){
-        self$INFO("Successfully created style!")
+        msg = "Successfully created style!"
+        cli::cli_alert_success(msg)
+        self$INFO(msg)
         created = TRUE
       }else{
-        self$ERROR("Error while creating style")
+        err = "Error while creating style"
+        cli::cli_alert_danger(err)
+        self$ERROR(err)
       }
       return(created)
     },
@@ -181,18 +166,26 @@ GSStyleManager <- R6Class("GSStyleManager",
     #'@param ws workspace name
     #'@return \code{TRUE} if the style has been successfully updated, \code{FALSE} otherwise
     updateStyle = function(file, sldBody = NULL, name, raw = FALSE, ws = NULL){
-      self$INFO(sprintf("Updating style '%s'", name))
+      msg = sprintf("Updating style '%s'", name)
+      cli::cli_alert_info(msg)
+      self$INFO(msg)
       
       if(!missing(file)){
         content <- readChar(file, file.info(file)$size)
-        if(!isXMLString(content)){
-          stop("SLD style is not recognized XML")
+        if(!GSUtils$isXMLString(content)){
+          err = "SLD style is not recognized XML"
+          cli::cli_alert_danger(err)
+          self$ERROR(err)
+          stop(err)
         }
-        sldBody <- XML::xmlParse(content)
+        sldBody <- xml2::read_xml(content)
       }
       
-      if(!is(sldBody, "XMLInternalDocument")){
-        stop("SLD body is not an XML document object")
+      if(!is(sldBody, "xml_document")){
+        err = "SLD body is not an XML document object"
+        cli::cli_alert_danger(err)
+        self$ERROR(err)
+        stop(err)
       }
       
       contentType <- switch(self$getSLDVersion(sldBody),
@@ -201,7 +194,10 @@ GSStyleManager <- R6Class("GSStyleManager",
                             NULL
       )
       if(is.null(contentType)){
-        stop("Not contentType specified for style creation")
+        err = "No contentType specified for style creation"
+        cli::cli_alert_danger(err)
+        self$ERROR(err)
+        stop(err)
       }
       
       reqUrl <- ""
@@ -221,10 +217,14 @@ GSStyleManager <- R6Class("GSStyleManager",
         verbose = self$verbose.debug
       )
       if(status_code(req) == 200){
-        self$INFO("Successfully updated style!")
+        msg = "Successfully updated style!"
+        cli::cli_alert_success(msg)
+        self$INFO(msg)
         updated = TRUE
       }else{
-        self$ERROR("Error while updating style")
+        err = "Error while updating style"
+        cli::cli_alert_danger(err)
+        self$ERROR(err)
       }
       return(updated)
     },
@@ -239,7 +239,9 @@ GSStyleManager <- R6Class("GSStyleManager",
     #'@param ws workspace name
     #'@return \code{TRUE} if the style has been successfully deleted, \code{FALSE} otherwise
     deleteStyle = function(name, recurse = FALSE, purge = FALSE, ws = NULL){
-      self$INFO(sprintf("Deleting style '%s'", name))
+      msg = sprintf("Deleting style '%s'", name)
+      cli::cli_alert_info(msg)
+      self$INFO(msg)
       deleted <- FALSE
       
       path <- ""
@@ -255,10 +257,14 @@ GSStyleManager <- R6Class("GSStyleManager",
                             private$keyring_backend$get(service = private$keyring_service, username = private$user),
                             path = path, self$verbose.debug)
       if(status_code(req) == 200){
-        self$INFO("Successfully deleted style!")
+        msg = "Successfully deleted style!"
+        cli::cli_alert_success(msg)
+        self$INFO(msg)
         deleted = TRUE
       }else{
-        self$ERROR("Error while deleting style")
+        err = "Error while deleting style"
+        cli::cli_alert_danger(err)
+        self$ERROR(err)
       }
       return(deleted)
     },
@@ -266,22 +272,25 @@ GSStyleManager <- R6Class("GSStyleManager",
     #'@description Get SLD version
     #'@param sldBody SLD body
     getSLDVersion = function(sldBody){
-      return(xmlGetAttr(xmlChildren(sldBody)[[1]], "version"))
+      return(xml2::xml_attr(sldBody, "version"))
     },
     
     #'@description Get SLD body
     #'@param style style name
     #'@param ws workspace name
-    #'@return an object of class \link{XMLInternalNode-class}
+    #'@return an object of class \link{xml_node-class}
     getSLDBody = function(style, ws = NULL){
       
       if(self$version$lowerThan("2.2")){
         err <- sprintf("Unsupported method for GeoServer %s", self$version$version)
+        cli::cli_alert_danger(err)
         self$ERROR(err)
         stop(err)
       }
       
-      self$INFO(sprintf("Fetching SLD body for style '%s'", style))
+      msg = sprintf("Fetching SLD body for style '%s'", style)
+      cli::cli_alert_info(msg)
+      self$INFO(msg)
       reqUrl <- ""
       if(!missing(ws) & !is.null(ws)){
         reqUrl <- sprintf("/workspaces/%s", ws)
@@ -293,9 +302,13 @@ GSStyleManager <- R6Class("GSStyleManager",
       style <- NULL
       if(status_code(req) == 200){
         style <- GSUtils$parseResponseXML(req)
-        self$INFO("Successfully fetched SLD body!")
+        msg = "Successfully fetched SLD body!"
+        cli::cli_alert_success(msg)
+        self$INFO(msg)
       }else{
-        self$ERROR("Error while fetching SLD body")
+        err = "Error while fetching SLD body"
+        cli::cli_alert_danger(err)
+        self$ERROR(err)
       }
       return(style)
     }

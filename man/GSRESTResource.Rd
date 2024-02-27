@@ -34,6 +34,8 @@ Emmanuel Blondel <emmanuel.blondel1@gmail.com>
 \item \href{#method-GSRESTResource-new}{\code{GSRESTResource$new()}}
 \item \href{#method-GSRESTResource-decode}{\code{GSRESTResource$decode()}}
 \item \href{#method-GSRESTResource-encode}{\code{GSRESTResource$encode()}}
+\item \href{#method-GSRESTResource-print}{\code{GSRESTResource$print()}}
+\item \href{#method-GSRESTResource-getClassName}{\code{GSRESTResource$getClassName()}}
 \item \href{#method-GSRESTResource-clone}{\code{GSRESTResource$clone()}}
 }
 }
@@ -49,7 +51,7 @@ Initializes an object of class \link{GSRESTResource}
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{xml}}{object of class \link{XMLInternalNode-class}}
+\item{\code{xml}}{object of class \link{xml_node-class}}
 
 \item{\code{rootName}}{root name}
 }
@@ -68,7 +70,7 @@ Decodes from XML. Abstract method to be implemented by sub-classes
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{xml}}{object of class \link{XMLInternalNode-class}}
+\item{\code{xml}}{object of class \link{xml_node-class}}
 }
 \if{html}{\out{</div>}}
 }
@@ -83,7 +85,39 @@ Encodes as XML
 }
 
 \subsection{Returns}{
-an object of class \link{XMLInternalNode-class}
+an object of class \link{xml_node-class}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-GSRESTResource-print"></a>}}
+\if{latex}{\out{\hypertarget{method-GSRESTResource-print}{}}}
+\subsection{Method \code{print()}}{
+Provides a custom print output (as tree) of the current class
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{GSRESTResource$print(..., depth = 1)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{...}}{args}
+
+\item{\code{depth}}{class nesting depth}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-GSRESTResource-getClassName"></a>}}
+\if{latex}{\out{\hypertarget{method-GSRESTResource-getClassName}{}}}
+\subsection{Method \code{getClassName()}}{
+Get class name
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{GSRESTResource$getClassName()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+an object of class \code{character}
 }
 }
 \if{html}{\out{<hr>}}

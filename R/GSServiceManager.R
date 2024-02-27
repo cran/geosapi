@@ -11,83 +11,6 @@
 #' \dontrun{
 #'    GSServiceManager$new("http://localhost:8080/geoserver", "admin", "geoserver")
 #'  }
-#'
-#' @section Constructor:
-#' \describe{
-#'  \item{\code{new(url, user, pwd, logger)}}{
-#'    This method is used to instantiate a GSManager with the \code{url} of the
-#'    GeoServer and credentials to authenticate (\code{user}/\code{pwd}). By default,
-#'    the \code{logger} argument will be set to \code{NULL} (no logger). This argument
-#'    accepts two possible values: \code{INFO}: to print only geosapi logs,
-#'    \code{DEBUG}: to print geosapi and CURL logs
-#'  }
-#'  \item{\code{getServiceSettings(service, ws)}}{
-#'    
-#'  }
-#'  \item{\code{getWmsSettings(ws)}}{
-#'    Get WMS settings. To get the WMS settings for a specific workspace,
-#'    specify the workspace name as \code{ws} parameter, otherwise global settings are
-#'    retrieved.
-#'  }
-#'  \item{\code{getWfsSettings(ws)}}{
-#'    Get WFS settings. To get the WFS settings for a specific workspace,
-#'    specify the workspace name as \code{ws} parameter, otherwise global settings are
-#'    retrieved.
-#'  }
-#'  \item{\code{getWcsSettings(ws)}}{
-#'    Get WCS settings. To get the WCS settings for a specific workspace,
-#'    specify the workspace name as \code{ws} parameter, otherwise global settings are
-#'    retrieved.
-#'  }
-#'  \item{\code{updateServiceSettings(serviceSettings, service, ws)}}{
-#'    Updates the service settings with an object of class \code{GSServiceSetting}.
-#'    An optional workspace name \code{ws} can be specified to update service settings
-#'    applying to a workspace.
-#'  }
-#'  \item{\code{deleteServiceSettings(service, ws)}}{
-#'    Deletes the service settings. This method is used internally by \pkg{geosapi} 
-#'    for disabling a service setting at workspace level.
-#'  }
-#'  \item{\code{updateWmsSettings(serviceSettings, ws)}}{
-#'    Updates the WMS settings with an object of class \code{GSServiceSetting}.
-#'    An optional workspace name \code{ws} can be specified to update WMS settings
-#'    applying to a workspace.
-#'  }
-#'  \item{\code{updateWfsSettings(serviceSettings, ws)}}{
-#'    Updates the WFS settings with an object of class \code{GSServiceSetting}.
-#'    An optional workspace name \code{ws} can be specified to update WFS settings
-#'    applying to a workspace.
-#'  }
-#'  \item{\code{updateWcsSettings(serviceSettings, ws)}}{
-#'    Updates the WCS settings with an object of class \code{GSServiceSettings}.
-#'    An optional workspace name \code{ws} can be specified to update WCS settings
-#'    applying to a workspace.
-#'  }
-#'  \item{\code{enableWMS(ws)}}{
-#'    Enables the WMS, either globally, or for a given workspace (optional)
-#'  }
-#'  \item{\code{enableWFS(ws)}}{
-#'    Enables the WFS, either globally, or for a given workspace (optional)
-#'  }
-#'  \item{\code{enableWCS(ws)}}{
-#'    Enables the WCS, either globally, or for a given workspace (optional)
-#'  }
-#'  \item{\code{disableServiceSettings(service, ws)}}{
-#'    Disables a service, either globally, or for a given workspace (optional).
-#'    For a global service setting, an UPDATE operation will be applied, while
-#'    for a workspace service setting, a DELETE operation is applied.
-#'  }
-#'  \item{\code{disableWMS(ws)}}{
-#'    Disables the WMS, either globally, or for a given workspace (optional)
-#'  }
-#'  \item{\code{disableWFS(ws)}}{
-#'    Disables the WFS, either globally, or for a given workspace (optional)
-#'  }
-#'  \item{\code{disableWCS(ws)}}{
-#'    Disables the WCS, either globally, or for a given workspace (optional)
-#'  }
-#' }
-#' 
 #' 
 #' @author Emmanuel Blondel <emmanuel.blondel1@@gmail.com>
 #'
@@ -106,7 +29,10 @@ GSServiceManager <- R6Class("GSServiceManager",
     #'@return an object of class \link{GSServiceSettings}
     getServiceSettings = function(service, ws = NULL){
       if(self$version$lowerThan("2.12")){
-        stop("This feature is available starting from GeoServer 2.12")
+        err = "This feature is available starting from GeoServer 2.12"
+        cli::cli_alert_danger(err)
+        self$ERROR(err)
+        stop(err)
       }
       restPath <- NULL
       service <- tolower(service)
@@ -123,10 +49,14 @@ GSServiceManager <- R6Class("GSServiceManager",
       serviceSettings <- NULL
       if(status_code(req) == 200){
         settingsXML <- GSUtils$parseResponseXML(req)
-        serviceSettings <- GSServiceSettings$new(xml = settingsXML, service = tolower(xmlName(xmlRoot(settingsXML))))
-        self$INFO("Successfully fetched service settings!")
+        serviceSettings <- GSServiceSettings$new(xml = settingsXML, service = tolower(xml2::xml_name(xml2::as_xml_document(settingsXML))))
+        msg = "Successfully fetched service settings!"
+        cli::cli_alert_success(msg)
+        self$INFO(msg)
       }else{
-        self$ERROR("Error while fetching service settings")
+        err = "Error while fetching service settings"
+        cli::cli_alert_danger(err)
+        self$ERROR(err)
       }
       return(serviceSettings)
     },
@@ -167,7 +97,10 @@ GSServiceManager <- R6Class("GSServiceManager",
     #'@return \code{TRUE} if updated, \code{FALSE} otherwise
     updateServiceSettings = function(serviceSettings, service, ws = NULL){
       if(self$version$lowerThan("2.12")){
-        stop("This feature is available starting from GeoServer 2.12")
+        err = "This feature is available starting from GeoServer 2.12"
+        cli::cli_alert_danger(err)
+        self$ERROR(err)
+        stop(err)
       }
       updated <- FALSE
       restPath <- NULL
@@ -188,10 +121,14 @@ GSServiceManager <- R6Class("GSServiceManager",
         verbose = self$verbose.debug
       )
       if(status_code(req) == 200){
-        self$INFO("Successfully updated service settings!")
+        msg = "Successfully updated service settings!"
+        cli::cli_alert_success(msg)
+        self$INFO(msg)
         updated = TRUE
       }else{
-        self$ERROR("Error while updating service settings")
+        err = "Error while updating service settings"
+        cli::cli_alert_danger(err)
+        self$ERROR(err)
       }
       return(updated)
     },
@@ -203,7 +140,10 @@ GSServiceManager <- R6Class("GSServiceManager",
     #'@return \code{TRUE} if deleted, \code{FALSE} otherwise
     deleteServiceSettings = function(service, ws = NULL){
       if(self$version$lowerThan("2.12")){
-        stop("This feature is available starting from GeoServer 2.12")
+        err = "This feature is available starting from GeoServer 2.12"
+        cli::cli_alert_danger(err)
+        self$ERROR(err)
+        stop(err)
       }
       deleted <- FALSE
       restPath <- NULL
@@ -222,10 +162,14 @@ GSServiceManager <- R6Class("GSServiceManager",
         path = restPath, verbose = self$verbose.debug
       )
       if(status_code(req) == 200){
-        self$INFO("Successfully deleted service settings!")
+        msg = "Successfully deleted service settings!"
+        cli::cli_alert_success(msg)
+        self$INFO(msg)
         deleted = TRUE
       }else{
-        self$ERROR("Error while deleted service settings")
+        err = "Error while deleted service settings"
+        cli::cli_alert_danger(err)
+        self$ERROR(err)
       }
       return(deleted)
     },

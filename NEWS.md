@@ -1,10 +1,23 @@
-## [geosapi 0.6-7](https://cran.r-project.org/package=geosapi) | [![CRAN_Status_Badge](https://img.shields.io/badge/CRAN-unavailable-red.svg)](https://cran.r-project.org/package=geosapi)
+## [geosapi 0.7](https://cran.r-project.org/package=geosapi) | [![CRAN_Status_Badge](https://img.shields.io/badge/CRAN-published-blue.svg)](https://cran.r-project.org/package=geosapi)
 
-*Bug fixes**
+**Enhancements**
+
+* [#62](https://github.com/eblondel/geosapi/issues/62) Migrate geosapi from XML to xml2
+* [#69](https://github.com/eblondel/geosapi/issues/69) Add cli as dependency for nice logs
+
+**New features**
+
+* [#65](https://github.com/eblondel/geosapi/issues/65) Support for Geoserver monitoring plugin API methods
+* [#67](https://github.com/eblondel/geosapi/issues/67) Support filename arg for GET methods
+* [#68](https://github.com/eblondel/geosapi/issues/68) Support custom printer for `geosapi` objects
+
+## [geosapi 0.6-7](https://cran.r-project.org/package=geosapi) | [![CRAN_Status_Badge](https://img.shields.io/badge/CRAN-published-blue.svg)](https://cran.r-project.org/package=geosapi)
+
+**Bug fixes**
 
 * [#64](https://github.com/eblondel/geosapi/issues/64) Fix workspace-based style creation/update/delete methods
 
-## [geosapi 0.6-6](https://cran.r-project.org/package=geosapi) | [![CRAN_Status_Badge](https://img.shields.io/badge/CRAN-published-blue.svg)](https://cran.r-project.org/package=geosapi)
+## [geosapi 0.6-6](https://cran.r-project.org/src/contrib/Archive/geosapi/geosapi_0.6-6.tar.gz) | [![CRAN_Status_Badge](https://img.shields.io/badge/CRAN-published-blue.svg)](https://cran.r-project.org/src/contrib/Archive/geosapi/geosapi_0.6-6.tar.gz)
 
 **Enhancements**
 

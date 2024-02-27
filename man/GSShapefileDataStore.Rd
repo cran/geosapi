@@ -15,33 +15,6 @@ Geoserver REST API ShapeFileDataStore
 
 Geoserver REST API ShapeFileDataStore
 }
-\section{Methods}{
-
-\describe{
-   \item{\code{new(xml, name, description, enabled, url)}}{
-     Instantiates a GSShapefileDataStore object
-   }
-   \item{\code{setUrl(url)}}{
-     Set the spatial files data URL
-   }
-   \item{\code{setCharset(charset)}}{
-     Set the charset used for DBF file. Default value is 'ISO-8859-1'
-   }
-   \item{\code{setCreateSpatialIndex(create)}}{
-     Set the 'Create Spatial Index' option. Default is TRUE
-   }
-   \item{\code{setMemoryMappedBuffer(buffer)}}{
-     Set the 'Memory Mapped Buffer' option. Default is TRUE
-   }
-   \item{\code{CacheReuseMemoryMaps(maps)}}{
-     Set the 'Cache & Reuse Memory Maps' option. Default is TRUE
-   }
-   \item{\code{setDefautConnectionParameters()}}{
-     Set the defaut connection paramaters
-   }
-}
-}
-
 \examples{
 GSShapefileDataStore$new(name = "ds", description = "des",
                          enabled = TRUE, url = "file://data/shape.shp")
@@ -76,6 +49,8 @@ Emmanuel Blondel <emmanuel.blondel1@gmail.com>
 <details><summary>Inherited methods</summary>
 <ul>
 <li><span class="pkg-link" data-pkg="geosapi" data-topic="GSRESTResource" data-id="encode"><a href='../../geosapi/html/GSRESTResource.html#method-GSRESTResource-encode'><code>geosapi::GSRESTResource$encode()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="geosapi" data-topic="GSRESTResource" data-id="getClassName"><a href='../../geosapi/html/GSRESTResource.html#method-GSRESTResource-getClassName'><code>geosapi::GSRESTResource$getClassName()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="geosapi" data-topic="GSRESTResource" data-id="print"><a href='../../geosapi/html/GSRESTResource.html#method-GSRESTResource-print'><code>geosapi::GSRESTResource$print()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="geosapi" data-topic="GSAbstractStore" data-id="setDescription"><a href='../../geosapi/html/GSAbstractStore.html#method-GSAbstractStore-setDescription'><code>geosapi::GSAbstractStore$setDescription()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="geosapi" data-topic="GSAbstractStore" data-id="setEnabled"><a href='../../geosapi/html/GSAbstractStore.html#method-GSAbstractStore-setEnabled'><code>geosapi::GSAbstractStore$setEnabled()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="geosapi" data-topic="GSAbstractStore" data-id="setType"><a href='../../geosapi/html/GSAbstractStore.html#method-GSAbstractStore-setType'><code>geosapi::GSAbstractStore$setType()</code></a></span></li>
@@ -105,7 +80,7 @@ initializes a shapefile data store
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{xml}}{an object of class \link{XMLInternalNode-class} to create object from XML}
+\item{\code{xml}}{an object of class \link{xml_node-class} to create object from XML}
 
 \item{\code{name}}{coverage store name}
 
