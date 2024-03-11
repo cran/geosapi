@@ -1,7 +1,7 @@
-395aecd37de90d084f44c705ab9ee7ff *DESCRIPTION
+8b8e92122b9d7bd2d3f030c1529b5a63 *DESCRIPTION
 aa201b2cd877efee21b0bd1ee54cb6d8 *LICENSE
 c20884dce53053ef5c94c4ba33ed9592 *NAMESPACE
-6ee7aea7f84f57b02b502d8f6a3fc1b9 *NEWS.md
+f25d004b518f011f40df3ae16ab092cb *NEWS.md
 ede7227a1935e9a787b830e79b4e2eab *R/GSAbstractCoverageStore.R
 db9edba2c72e758a6c51da64536a37cb *R/GSAbstractDBDataStore.R
 0d9b3060ff98a78080465876b038cfd8 *R/GSAbstractDataStore.R
@@ -31,7 +31,7 @@ eb90a72fcd41e3e99a9a2f3bb9245dfe *R/GSOracleNGDataStore.R
 a090e8bf1bc93cd25950b5c7361bc1cd *R/GSPostGISDataStore.R
 1df4bbf855bc4c7087a59ce1938a6641 *R/GSPublishable.R
 c46760803c127bebaebdb78ab01862eb *R/GSRESTEntrySet.R
-7a592750c3586190b050521d86edd698 *R/GSRESTResource.R
+4742e5c4dc0378dc971fe7917f54f13e *R/GSRESTResource.R
 6c7f7afc908f35674f0352a1e0bd79f1 *R/GSResource.R
 bdf6dcc758f4beca4e6b3e9ef18b792a *R/GSServiceManager.R
 266c6970bce0f025f71632297b4c19c7 *R/GSServiceSettings.R
@@ -50,7 +50,7 @@ f4322fef3a541b876677dbacf485b720 *R/GSWorkspaceManager.R
 4d95e2c82e8dd69be488a3fa7c26c622 *R/GSWorkspaceSettings.R
 1e561b3dfadf0ad2ec3c5e3c00d8d82b *R/GSWorldImageCoverageStore.R
 f3b5cfc901827537d74c700b924f9310 *R/geosapi.R
-f37bff175788cce87df553a42711b2f3 *README.md
+186a99790ef792624f801601e5e02c79 *README.md
 4f84ce77aa2e715e4078bfcae09c0d6d *build/vignette.rds
 1a91688cbbecb616039818b380a280e9 *inst/doc/geosapi.R
 5d7112c2c4f385a53e62249bc359ebd7 *inst/doc/geosapi.Rmd
