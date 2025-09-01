@@ -3,102 +3,149 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-
 <title>geosapi User Manual</title>
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.6.0/build/styles/github.min.css">
-<script src="https://cdn.jsdelivr.net/combine/gh/highlightjs/cdn-release@11.6.0/build/highlight.min.js,npm/@xiee/utils/js/load-highlight.js" async></script>
-
-
-
 <style type="text/css">
-body, td {
-  font-family: sans-serif;
-  background-color: white;
-  font-size: 13px;
+/**
+ * Prism.s theme ported from highlight.js's xcode style
+ */
+pre code {
+  padding: 1em;
 }
+.token.comment {
+  color: #007400;
+}
+.token.punctuation {
+  color: #999;
+}
+.token.tag,
+.token.selector {
+  color: #aa0d91;
+}
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol {
+  color: #1c00cf;
+}
+.token.property,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin {
+  color: #c41a16;
+}
+.token.inserted {
+  background-color: #ccffd8;
+}
+.token.deleted {
+  background-color: #ffebe9;
+}
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+  color: #9a6e3a;
+}
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+  color: #836c28;
+}
+.token.function,
+.token.class-name {
+  color: #DD4A68;
+}
+.token.regex,
+.token.important,
+.token.variable {
+  color: #5c2699;
+}
+.token.important,
+.token.bold {
+  font-weight: bold;
+}
+.token.italic {
+  font-style: italic;
+}
+</style>
+<style type="text/css">
 body {
+  font-family: sans-serif;
   max-width: 800px;
   margin: auto;
   padding: 1em;
   line-height: 1.5;
   box-sizing: border-box;
 }
+body, .footnotes, code { font-size: .9em; }
+li li { font-size: .95em; }
 *, *:before, *:after {
   box-sizing: inherit;
 }
-tt, code, pre {
-  font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
-}
-a:visited { color: #80007f; }
 pre, img { max-width: 100%; }
-code {
-  font-size: 92%;
-  border: 1px solid #ccc;
+pre, pre:hover {
+  white-space: pre-wrap;
+  word-break: break-all;
 }
-code[class] { background-color: #F8F8F8; }
-code.language-undefined { background-color: inherit; }
+pre code {
+  display: block;
+  overflow-x: auto;
+}
+code { font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace; }
+:not(pre) > code, code[class] { background-color: #F8F8F8; }
+code.language-undefined, pre > code:not([class]) {
+  background-color: inherit;
+  border: 1px solid #eee;
+}
 table {
   margin: auto;
   border-top: 1px solid #666;
-  border-bottom: 1px solid #666;
 }
 table thead th { border-bottom: 1px solid #ddd; }
 th, td { padding: 5px; }
 thead, tfoot, tr:nth-child(even) { background: #eee; }
 blockquote {
-  color:#666;
-  margin:0;
+  color: #666;
+  margin: 0;
   padding-left: 1em;
-  border-left: 0.5em #eee solid;
+  border-left: 0.5em solid #eee;
 }
-hr { border: 1px #ddd dashed; }
+hr, .footnotes::before { border: 1px dashed #ddd; }
 .frontmatter { text-align: center; }
+#TOC .numbered li { list-style: none; }
+#TOC .numbered { padding-left: 0; }
+#TOC .numbered ul { padding-left: 1em; }
+table, .body h2 { border-bottom: 1px solid #666; }
+.body .appendix, .appendix ~ h2 { border-bottom-style: dashed; }
+.footnote-ref a::before { content: "["; }
+.footnote-ref a::after { content: "]"; }
+section.footnotes::before {
+  content: "";
+  display: block;
+  max-width: 20em;
+}
 
 @media print {
-  * {
-    background: transparent !important;
-    color: black !important;
-    filter:none !important;
-  }
   body {
     font-size: 12pt;
     max-width: 100%;
   }
-  a, a:visited { text-decoration: underline; }
-  hr {
-    visibility: hidden;
-    page-break-before: always;
-  }
-  pre, blockquote {
-    padding-right: 1em;
-    page-break-inside: avoid;
-  }
   tr, img { page-break-inside: avoid; }
-  img { max-width: 100% !important; }
-  @page :left { margin: 15mm 20mm 15mm 10mm; }
-  @page :right { margin: 15mm 10mm 15mm 20mm; }
-  p, h2, h3 { orphans: 3; widows: 3; }
-  h2, h3 { page-break-after: avoid; }
+}
+@media only screen and (min-width: 992px) {
+  pre { white-space: pre; }
 }
 </style>
-
-
 </head>
-
 <body>
-<div class="include-before">
-
-</div>
-
 <div class="frontmatter">
 <div class="title"><h1>geosapi User Manual</h1></div>
 <div class="author"><h2></h2></div>
 <div class="date"><h3></h3></div>
 </div>
-
 <div class="body">
-<h1>geosapi - R Interface to GeoServer REST API</h1>
+<h1 id="geosapi-r-interface-to-geoserver-rest-api">geosapi - R Interface to GeoServer REST API</h1>
 <p>R Interface to GeoServer REST API – Allows to perform programmatically from R</p>
 <ul>
 <li>CRUD operations (Create, Read, Update, Delete)  on GeoServer resources including <code>workspace</code>, <code>namespaces</code>, <code>dataStores</code> <code>featureTypes</code>, <code>layers</code>, <code>styles</code>, <code>settings</code> (workspaces, OGC services) etc.</li>
@@ -186,25 +233,25 @@ hr { border: 1px #ddd dashed; }
       <a href="#GSServiceSettings-enable">4.9.3 Enable/Disable an OGC service (WMS/WFS/WCS)</a><br/>
 <a href="#package_issues"><strong>5. Issue reporting</strong></a><br/></p>
 <a name="package_overview"/>
-<h3>1. Overview and vision</h3>
+<h3 id="1-overview-and-vision">1. Overview and vision</h3>
 <hr />
 <p>Until now, equivalent tools were existing for other programming languages (e.g. Java, Python) but not in R. <a href="https://github.com/eblondel/geosapi">geosapi</a> intends to provide R native interface to the GeoServer REST API, in order to facilitate publication of geographic data resources from R to <a href="https://geoserver.org/">GeoServer</a>.</p>
 <a name="package_status"/>
-<h3>2. Development status</h3>
+<h3 id="2-development-status">2. Development status</h3>
 <hr />
 <p>Published on CRAN</p>
 <a name="package_credits"/>
-<h3>3. Credits</h3>
+<h3 id="3-credits">3. Credits</h3>
 <hr />
 <p>© 2016, Emmanuel Blondel</p>
 <p>Package distributed under MIT license.</p>
 <p>If you use <code>geosapi</code>, i would be very grateful if you can add a citation in your published work. By citing <code>geosapi</code>, beyond acknowledging the work, you contribute to make it more visible and guarantee its growing and sustainability. You can get the preferred citation by running <code>citation(&quot;geosapi)</code> in R.</p>
 <p>You can reference <code>geosapi</code> through its DOI: <a href="https://doi.org/10.5281/zenodo.1184895"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.1184895.svg" alt="DOI" /></a></p>
 <a name="user_guide"/>
-<h3>4. User guide</h3>
+<h3 id="4-user-guide">4. User guide</h3>
 <hr />
 <a name="install_guide"/>
-<h4>4.1 How to install geosapi in R</h4>
+<h4 id="4-1-how-to-install-geosapi-in-r">4.1 How to install geosapi in R</h4>
 <p>For now, the package can be installed from Github</p>
 <pre><code class="language-R">install.packages(&quot;remotes&quot;)
 </code></pre>
@@ -212,7 +259,7 @@ hr { border: 1px #ddd dashed; }
 <pre><code class="language-R">remotes::install_github(&quot;eblondel/geosapi&quot;)
 </code></pre>
 <a name="GSManager"/>
-<h4>4.2 Connect to GeoServer REST API</h4>
+<h4 id="4-2-connect-to-geoserver-rest-api">4.2 Connect to GeoServer REST API</h4>
 <p>The main entry point of <code>geosapi</code> is the <code>GSManager</code>. To configure it, enter the following line, specifying the base <code>URL</code> of your GeoServer, and your credentials:</p>
 <pre><code class="language-R">gsman &lt;- GSManager$new(
     url = &quot;http://localhost:8080/geoserver&quot;, #baseUrl of the Geoserver
@@ -232,12 +279,12 @@ hr { border: 1px #ddd dashed; }
 <li><code>GSDataStoreManager</code>: Manage <code>dataStores</code></li>
 </ul>
 <a name="GSWorkspace"/>
-<h4>4.3 Manipulate GeoServer <code>workspaces</code></h4>
+<h4 id="4-3-manipulate-geoserver-workspaces">4.3 Manipulate GeoServer <code>workspaces</code></h4>
 <blockquote>
 <p><strong>GeoServer API doc</strong>: <a href="https://docs.geoserver.org/stable/en/user/rest/api/workspaces.html">https://docs.geoserver.org/stable/en/user/rest/api/workspaces.html</a></p>
 </blockquote>
 <a name="GSWorkspace-get"/>
-<h5>4.3.1 Get a (list of) <code>workspace(s)</code></h5>
+<h5 id="4-3-1-get-a-list-of-workspace-s">4.3.1 Get a (list of) <code>workspace(s)</code></h5>
 <pre><code class="language-R">  #get workspace objects
   wslist &lt;- gsman$getWorkspaces()
 
@@ -248,25 +295,25 @@ hr { border: 1px #ddd dashed; }
   ws &lt;- gsman$getWorkspace(&quot;topp&quot;)
 </code></pre>
 <a name="GSWorkspace-create"/>
-<h5>4.3.2 Create a new <code>workspace</code></h5>
+<h5 id="4-3-2-create-a-new-workspace">4.3.2 Create a new <code>workspace</code></h5>
 <pre><code class="language-R">  created &lt;- gsman$createWorkspace(&quot;geosapi&quot;, &quot;http://geoapi&quot;)
 </code></pre>
 <a name="GSWorkspace-update"/>
-<h5>4.3.3 Update an existing <code>workspace</code></h5>
+<h5 id="4-3-3-update-an-existing-workspace">4.3.3 Update an existing <code>workspace</code></h5>
 <pre><code class="language-R">  updated &lt;- gsman$updateWorkspace(&quot;geosapi&quot;, &quot;http://newgeoapi&quot;)
 </code></pre>
 <a name="GSWorkspace-delete"/>
-<h5>4.3.4 Delete an existing <code>workspace</code></h5>
+<h5 id="4-3-4-delete-an-existing-workspace">4.3.4 Delete an existing <code>workspace</code></h5>
 <pre><code class="language-R">  deleted &lt;- gsman$deleteWorkspace(&quot;geosapi&quot;, recurse = TRUE)
 </code></pre>
 <p>The <code>recurse</code> parameter allows to delete all layers published under the deleted workspace.</p>
 <a name="GSNamespace"/>
-<h4>4.4 Manipulate GeoServer <code>namespaces</code></h4>
+<h4 id="4-4-manipulate-geoserver-namespaces">4.4 Manipulate GeoServer <code>namespaces</code></h4>
 <blockquote>
 <p><strong>GeoServer API doc</strong>: <a href="https://docs.geoserver.org/stable/en/user/rest/api/namespaces.html">https://docs.geoserver.org/stable/en/user/rest/api/namespaces.html</a></p>
 </blockquote>
 <a name="GSNamespace-get"/>
-<h5>4.4.1 Get a (list of) <code>namespace(s)</code></h5>
+<h5 id="4-4-1-get-a-list-of-namespace-s">4.4.1 Get a (list of) <code>namespace(s)</code></h5>
 <pre><code class="language-R">  #get namespace objects
   nslist &lt;- gsman$getNamespaces()
 
@@ -277,27 +324,27 @@ hr { border: 1px #ddd dashed; }
   ns &lt;- gsman$getNamespace(&quot;topp&quot;)
 </code></pre>
 <a name="GSNamespace-create"/>
-<h5>4.4.2 Create a new <code>namespace</code></h5>
+<h5 id="4-4-2-create-a-new-namespace">4.4.2 Create a new <code>namespace</code></h5>
 <pre><code class="language-R">  created &lt;- gsman$createNamespace(&quot;geosapi&quot;, &quot;http://geoapi&quot;)
 </code></pre>
 <a name="GSNamespace-update"/>
-<h5>4.4.3 Update an existing <code>namespace</code></h5>
+<h5 id="4-4-3-update-an-existing-namespace">4.4.3 Update an existing <code>namespace</code></h5>
 <pre><code class="language-R">  updated &lt;- gsman$updateNamespace(&quot;geosapi&quot;, &quot;http://newgeoapi&quot;)
 </code></pre>
 <a name="GSNamespace-delete"/>
-<h5>4.4.4 Delete an existing <code>namespace</code></h5>
+<h5 id="4-4-4-delete-an-existing-namespace">4.4.4 Delete an existing <code>namespace</code></h5>
 <pre><code class="language-R">  deleted &lt;- gsman$deleteNamespace(&quot;geosapi&quot;, recurse = TRUE)
 </code></pre>
 <p>The <code>recurse</code> parameter allows to delete all layers published under the deleted namespace.</p>
 <a name="vectordata"/>
-<h4>4.5 Manage <strong>vector data</strong> with GeoServer</h4>
+<h4 id="4-5-manage-vector-data-with-geoserver">4.5 Manage <strong>vector data</strong> with GeoServer</h4>
 <a name="GSDataStore"/>
-<h5>4.5.1 Manipulate GeoServer <code>dataStores</code></h5>
+<h5 id="4-5-1-manipulate-geoserver-datastores">4.5.1 Manipulate GeoServer <code>dataStores</code></h5>
 <blockquote>
 <p><strong>GeoServer API doc</strong>: <a href="https://docs.geoserver.org/stable/en/user/rest/api/datastores.html">https://docs.geoserver.org/stable/en/user/rest/api/datastores.html</a></p>
 </blockquote>
 <a name="GSDataStore-get"/>
-<h6>4.5.1.1 Get a (list of) <code>dataStore(s)</code></h6>
+<h6 id="4-5-1-1-get-a-list-of-datastore-s">4.5.1.1 Get a (list of) <code>dataStore(s)</code></h6>
 <pre><code class="language-R">  #get datastore objects
   dslist &lt;- gsman$getDataStores(&quot;topp&quot;)
 
@@ -308,7 +355,7 @@ hr { border: 1px #ddd dashed; }
   ns &lt;- gsman$getDataStore(&quot;topp&quot;, &quot;states_shapefile&quot;)
 </code></pre>
 <a name="GSDataStore-create"/>
-<h6>4.5.1.2 Create a new <code>dataStore</code></h6>
+<h6 id="4-5-1-2-create-a-new-datastore">4.5.1.2 Create a new <code>dataStore</code></h6>
 <a name="GSShapefileDataStore-create"/>
 <ul>
 <li>4.5.1.2.1 Create a <strong>Shapefile</strong> <code>dataStore</code></li>
@@ -340,7 +387,7 @@ hr { border: 1px #ddd dashed; }
   created &lt;- gsman$createDataStore(&quot;topp&quot;, ds)
 </code></pre>
 <a name="GSDataStore-update"/>
-<h6>4.5.1.3 Update an existing <code>dataStore</code></h6>
+<h6 id="4-5-1-3-update-an-existing-datastore">4.5.1.3 Update an existing <code>dataStore</code></h6>
 <pre><code class="language-R">  dataStore &lt;- gsman$getDataStore(&quot;topp&quot;, &quot;topp_datastore&quot;)
   dataStore$setDescription(&quot;topp_datastore updated description&quot;)
   dataStore$setEnabled(FALSE)
@@ -348,12 +395,12 @@ hr { border: 1px #ddd dashed; }
   updated &lt;- gsman$updateDataStore(&quot;topp&quot;, dataStore)
 </code></pre>
 <a name="GSDataStore-delete"/>
-<h6>4.5.1.4 Delete an existing <code>dataStore</code></h6>
+<h6 id="4-5-1-4-delete-an-existing-datastore">4.5.1.4 Delete an existing <code>dataStore</code></h6>
 <pre><code class="language-R">  deleted &lt;- gsman$deleteDataStore(&quot;topp&quot;, &quot;topp_datastore&quot;, recurse = TRUE)
 </code></pre>
 <p>The <code>recurse</code> parameter allows to delete all layers published under the deleted datastore.</p>
 <a name="GSFeatureType-upload"/>
-<h5>4.5.2 Upload features/vector data</h5>
+<h5 id="4-5-2-upload-features-vector-data">4.5.2 Upload features/vector data</h5>
 <p>The <code>geosapi</code> offers methods to upload vector data to configured <code>datastores</code>. A generic method <code>gsman$uploadData</code> allows to upload any kind of data type supported by GeoServer, by specifying the file extension. To upload data, several parameters have to be specified including:</p>
 <ul>
 <li><code>ws</code>: the workspace in which the datastore is configured</li>
@@ -383,12 +430,12 @@ hr { border: 1px #ddd dashed; }
   )
 </code></pre>
 <a name="GSFeatureType"/>
-<h5>4.5.3 Manipulate GeoServer <code>featureType</code></h5>
+<h5 id="4-5-3-manipulate-geoserver-featuretype">4.5.3 Manipulate GeoServer <code>featureType</code></h5>
 <blockquote>
 <p><strong>GeoServer API doc</strong>: <a href="https://docs.geoserver.org/stable/en/user/rest/api/featuretypes.html">https://docs.geoserver.org/stable/en/user/rest/api/featuretypes.html</a></p>
 </blockquote>
 <a name="GSFeatureType-get"/>
-<h6>4.5.3.1 Get a (list of) <code>featureType(s)</code></h6>
+<h6 id="4-5-3-1-get-a-list-of-featuretype-s">4.5.3.1 Get a (list of) <code>featureType(s)</code></h6>
 <pre><code class="language-R">  #get featureType objects
   ftlist &lt;- gsman$getFeatureTypes(&quot;topp&quot;, &quot;taz_shapes&quot;)
 
@@ -399,7 +446,7 @@ hr { border: 1px #ddd dashed; }
   ft &lt;- gsman$getFeatureType(&quot;topp&quot;, &quot;taz_shapes&quot;, &quot;tasmania_cities&quot;)
 </code></pre>
 <a name="GSFeatureType-create"/>
-<h6>4.5.3.2 Create a new <code>featureType</code></h6>
+<h6 id="4-5-3-2-create-a-new-featuretype">4.5.3.2 Create a new <code>featureType</code></h6>
 <pre><code class="language-R">  #create featuretype object
   featureType &lt;- GSFeatureType$new()
   featureType$setName(&quot;tasmania_cities2&quot;)
@@ -445,7 +492,7 @@ vt$addParameter(vtp3)
 featureType$setVirtualTable(vt)
 </code></pre>
 <a name="GSFeatureType-update"/>
-<h6>4.5.3.3 Update an existing <code>featureType</code></h6>
+<h6 id="4-5-3-3-update-an-existing-featuretype">4.5.3.3 Update an existing <code>featureType</code></h6>
 <pre><code class="language-R">  #fetch featureType and update some properties
   featureType &lt;- gsman$getFeatureType(&quot;topp&quot;, &quot;taz_shapes&quot;, &quot;tasmania_cities2&quot;)
   featureType$setAbstract(&quot;abstract updated&quot;)
@@ -455,17 +502,17 @@ featureType$setVirtualTable(vt)
   updated &lt;- gsman$updateFeatureType(&quot;topp&quot;, &quot;taz_shapes&quot;, featureType)
 </code></pre>
 <a name="GSFeatureType-delete"/>
-<h6>4.5.3.4 Delete an existing <code>featureType</code></h6>
+<h6 id="4-5-3-4-delete-an-existing-featuretype">4.5.3.4 Delete an existing <code>featureType</code></h6>
 <pre><code class="language-R">  deleted &lt;- gsman$deleteFeatureType(&quot;topp&quot;, &quot;taz_shapes&quot;, &quot;tasmania_cities2&quot;, recurse = TRUE)
 </code></pre>
 <p>The <code>recurse</code> parameter allows to delete the layer published for the deleted featureType.</p>
 <a name="GSLayer"/>
-<h5>4.5.4 Manipulate GeoServer <code>layers</code></h5>
+<h5 id="4-5-4-manipulate-geoserver-layers">4.5.4 Manipulate GeoServer <code>layers</code></h5>
 <blockquote>
 <p><strong>GeoServer API doc</strong>: <a href="https://docs.geoserver.org/stable/en/user/rest/api/layers.html">https://docs.geoserver.org/stable/en/user/rest/api/layers.html</a></p>
 </blockquote>
 <a name="GSLayer-get"/>
-<h6>4.5.4.1 Get a (list of) <code>layer(s)</code></h6>
+<h6 id="4-5-4-1-get-a-list-of-layer-s">4.5.4.1 Get a (list of) <code>layer(s)</code></h6>
 <pre><code class="language-R">  #get layer objects
   layers &lt;- gsman$getLayers()
 
@@ -476,7 +523,7 @@ featureType$setVirtualTable(vt)
   layer &lt;- gsman$getLayer(&quot;tasmania_cities&quot;)
 </code></pre>
 <a name="GSLayer-create"/>
-<h6>4.5.4.2 Create a new <code>layer</code></h6>
+<h6 id="4-5-4-2-create-a-new-layer">4.5.4.2 Create a new <code>layer</code></h6>
 <p>This method shows how to <em>publish</em> a created <code>featureType</code> (as created in <a href="https://github.com/eblondel/geosapi/wiki#GSFeatureType-create">4.5.3 Create a new <code>FeatureType</code></a>)</p>
 <pre><code class="language-R">  layer &lt;- GSLayer$new()
   layer$setName(&quot;tasmania_cities2&quot;)
@@ -485,20 +532,20 @@ featureType$setVirtualTable(vt)
   created &lt;- gsman$createLayer(layer)
 </code></pre>
 <a name="GSLayer-update"/>
-<h6>4.5.4.3 Update an existing <code>layer</code></h6>
+<h6 id="4-5-4-3-update-an-existing-layer">4.5.4.3 Update an existing <code>layer</code></h6>
 <pre><code class="language-R">  lyr &lt;- gsman$getLayer(&quot;tasmania_cities&quot;)
   lyr$setDefaultStyle(&quot;generic&quot;)
   updated &lt;- gsman$updateLayer(lyr)
 </code></pre>
 <a name="GSLayer-delete"/>
-<h6>4.5.4.4 Delete an existing <code>layer</code></h6>
+<h6 id="4-5-4-4-delete-an-existing-layer">4.5.4.4 Delete an existing <code>layer</code></h6>
 <pre><code class="language-R">  deleted &lt;- gsman$deleteLayer(&quot;tasmania_cities2&quot;)
 </code></pre>
 <a name="publishFeatureLayer"/>
-<h5>4.5.5 Publication of GeoServer feature layer</h5>
+<h5 id="4-5-5-publication-of-geoserver-feature-layer">4.5.5 Publication of GeoServer feature layer</h5>
 <p>GeoServer manages feature data layers by means of two different types of resources: the <code>featureType</code> and the <code>layer</code>. When created, the latter will <em>publish</em> the former. Hence, in order to <strong>publish</strong> a complete feature data layer, two GeoServer resources should be created. The below methods allow the user to do both creation through a <strong>single</strong> method. To distinguish them from the above API methods and avoid confusion, we don’t use the terminology <strong>create</strong> / <strong>delete</strong> but <strong>publish</strong> / <strong>unpublish</strong>.</p>
 <a name="publishFeatureLayer-publish"/>
-<h6>4.5.5.1 Publish Geoserver feature layer</h6>
+<h6 id="4-5-5-1-publish-geoserver-feature-layer">4.5.5.1 Publish Geoserver feature layer</h6>
 <p>The method <code>publishLayer</code> will sequentially do two requests to GeoServer:</p>
 <ul>
 <li>Create <code>featureType</code></li>
@@ -531,7 +578,7 @@ featureType$setVirtualTable(vt)
   published &lt;- gsman$publishLayer(&quot;topp&quot;, &quot;taz_shapes&quot;, featureType, layer)
 </code></pre>
 <a name="publishFeatureLayer-unpublish"/>
-<h6>4.5.5.2 Unpublish Geoserver feature layer</h6>
+<h6 id="4-5-5-2-unpublish-geoserver-feature-layer">4.5.5.2 Unpublish Geoserver feature layer</h6>
 <p>The method <code>publishLayer</code> will sequentially do two requests to GeoServer:</p>
 <ul>
 <li>Delete <code>layer</code></li>
@@ -541,12 +588,12 @@ featureType$setVirtualTable(vt)
   published &lt;- gsman$unpublishLayer(&quot;topp&quot;, &quot;taz_shapes&quot;, &quot;tasmania_cities2&quot;)
 </code></pre>
 <a name="GSLayerGroup"/>
-<h5>4.5.6 Manipulate GeoServer <code>layer groups</code></h5>
+<h5 id="4-5-6-manipulate-geoserver-layer-groups">4.5.6 Manipulate GeoServer <code>layer groups</code></h5>
 <blockquote>
 <p><strong>GeoServer API doc</strong>: <a href="https://docs.geoserver.org/stable/en/user/rest/api/layergroups.html">https://docs.geoserver.org/stable/en/user/rest/api/layergroups.html</a></p>
 </blockquote>
 <a name="GSLayerGroup-get"/>
-<h6>4.5.6.1 Get a (list of) <code>layer group(s)</code></h6>
+<h6 id="4-5-6-1-get-a-list-of-layer-group-s">4.5.6.1 Get a (list of) <code>layer group(s)</code></h6>
 <pre><code class="language-R">  #get layer groups objects
   layerGroups &lt;- gsman$getLayerGroups()
 
@@ -557,7 +604,7 @@ featureType$setVirtualTable(vt)
   layerGroup &lt;- gsman$getLayerGroup(&quot;test_layergroup&quot;)
 </code></pre>
 <a name="GSLayerGroup-create"/>
-<h6>4.5.6.2 Create a new <code>layer group</code></h6>
+<h6 id="4-5-6-2-create-a-new-layer-group">4.5.6.2 Create a new <code>layer group</code></h6>
 <pre><code class="language-R">  lyr &lt;- GSLayerGroup$new()
   lyr$setName(&quot;test_layergroup&quot;)
   lyr$setTitle(&quot;title&quot;)
@@ -568,7 +615,7 @@ featureType$setVirtualTable(vt)
   gsman$createLayerGroup(layerGroup = lyr)
 </code></pre>
 <a name="GSLayerGroup-update"/>
-<h6>4.5.6.3 Update an existing <code>layer group</code></h6>
+<h6 id="4-5-6-3-update-an-existing-layer-group">4.5.6.3 Update an existing <code>layer group</code></h6>
 <pre><code class="language-R">  lyr &lt;- GSLayerGroup$new()
   lyr$setName(&quot;test_layergroup&quot;)
   lyr$setTitle(&quot;title&quot;)
@@ -579,18 +626,18 @@ featureType$setVirtualTable(vt)
   gsman$updateLayerGroup(layerGroup = lyr)
 </code></pre>
 <a name="GSLayerGroup-delete"/>
-<h6>4.5.6.4 Delete an existing <code>layer group</code></h6>
+<h6 id="4-5-6-4-delete-an-existing-layer-group">4.5.6.4 Delete an existing <code>layer group</code></h6>
 <pre><code class="language-R">  deleted &lt;- gsman$deleteLayerGroup(&quot;test_layergroup&quot;)
 </code></pre>
 <a name="rasterdata"/>
-<h4>4.6. Manage <strong>raster data</strong> with GeoServer</h4>
+<h4 id="4-6-manage-raster-data-with-geoserver">4.6. Manage <strong>raster data</strong> with GeoServer</h4>
 <a name="GSCoverageStore"/>
-<h5>4.6.1 Manipulate GeoServer <code>coveragestores</code></h5>
+<h5 id="4-6-1-manipulate-geoserver-coveragestores">4.6.1 Manipulate GeoServer <code>coveragestores</code></h5>
 <blockquote>
 <p><strong>GeoServer API doc</strong>: <a href="https://docs.geoserver.org/stable/en/user/rest/api/coveragestores.html">https://docs.geoserver.org/stable/en/user/rest/api/coveragestores.html</a></p>
 </blockquote>
 <a name="GSCoverageStore-get"/>
-<h6>4.6.1.1 Get a (list of) <code>coveragestore(s)</code></h6>
+<h6 id="4-6-1-1-get-a-list-of-coveragestore-s">4.6.1.1 Get a (list of) <code>coveragestore(s)</code></h6>
 <pre><code class="language-R">  #get coveragestore objects
   cslist &lt;- gsman$getCoverageStores(&quot;nurc&quot;)
 
@@ -601,7 +648,7 @@ featureType$setVirtualTable(vt)
   cs &lt;- gsman$getCoverageStore(&quot;nurc&quot;, &quot;mosaic&quot;)
 </code></pre>
 <a name="GSCoverageStore-create"/>
-<h6>4.6.1.2 Create a new <code>coveragetore</code></h6>
+<h6 id="4-6-1-2-create-a-new-coveragetore">4.6.1.2 Create a new <code>coveragetore</code></h6>
 <a name="GSGeoTIFFCoverageStore-create"/>
 <ul>
 <li>4.6.1.2.1 Create a <strong>GeoTIFF</strong> <code>coveragestore</code></li>
@@ -631,7 +678,7 @@ featureType$setVirtualTable(vt)
   created &lt;- gsman$createCoverageStore(&quot;sf&quot;, cs)
 </code></pre>
 <a name="GSCoverageStore-update"/>
-<h6>4.6.1.3 Update an existing <code>coveragestore</code></h6>
+<h6 id="4-6-1-3-update-an-existing-coveragestore">4.6.1.3 Update an existing <code>coveragestore</code></h6>
 <pre><code class="language-R">  cs &lt;- gsman$getCoverageStore(&quot;sf&quot;, &quot;sfdem&quot;)
   cs$setDescription(&quot;sfdem updated description&quot;)
   cs$setEnabled(FALSE)
@@ -639,12 +686,12 @@ featureType$setVirtualTable(vt)
   updated &lt;- gsman$updateCoverageStore(&quot;sf&quot;, cs)
 </code></pre>
 <a name="GSCoverageStore-delete"/>
-<h6>4.6.1.4 Delete an existing <code>coveragestore</code></h6>
+<h6 id="4-6-1-4-delete-an-existing-coveragestore">4.6.1.4 Delete an existing <code>coveragestore</code></h6>
 <pre><code class="language-R">  deleted &lt;- gsman$deleteCoverageStore(&quot;sf&quot;, &quot;sfdem&quot;, recurse = TRUE)
 </code></pre>
 <p>The <code>recurse</code> parameter allows to delete all coverages published under the deleted coveragestore.</p>
 <a name="GSCoverage-upload"/>
-<h5>4.6.2 Upload coverage/raster data</h5>
+<h5 id="4-6-2-upload-coverage-raster-data">4.6.2 Upload coverage/raster data</h5>
 <p>The <code>geosapi</code> offers methods to upload coverage data to configured <code>coveragestores</code>. A generic method <code>gsman$uploadCoverage</code> allows to upload any kind of coverage data type supported by GeoServer, by specifying the file extension. To upload data, several parameters have to be specified including:</p>
 <ul>
 <li><code>ws</code>: the workspace in which the datastore is configured</li>
@@ -672,12 +719,12 @@ featureType$setVirtualTable(vt)
   )
 </code></pre>
 <a name="GSCoverage"/>
-<h5>4.6.3 Manipulate GeoServer <code>coverages</code></h5>
+<h5 id="4-6-3-manipulate-geoserver-coverages">4.6.3 Manipulate GeoServer <code>coverages</code></h5>
 <blockquote>
 <p><strong>GeoServer API doc</strong>: <a href="https://docs.geoserver.org/stable/en/user/rest/api/coverages.html">https://docs.geoserver.org/stable/en/user/rest/api/coverages.html</a></p>
 </blockquote>
 <a name="GSCoverage-get"/>
-<h6>4.6.3.1 Get a (list of) <code>coverage(s)</code></h6>
+<h6 id="4-6-3-1-get-a-list-of-coverage-s">4.6.3.1 Get a (list of) <code>coverage(s)</code></h6>
 <pre><code class="language-R">  #get coverage objects
   covlist &lt;- gsman$getCoverages(&quot;sf&quot;, &quot;sfdem&quot;)
 
@@ -688,7 +735,7 @@ featureType$setVirtualTable(vt)
   cov &lt;- gsman$getCoverage(&quot;sf&quot;, &quot;sfdem&quot;, &quot;sfdem&quot;)
 </code></pre>
 <a name="GSCoverage-create"/>
-<h6>4.6.3.2 Create a new <code>coverage</code></h6>
+<h6 id="4-6-3-2-create-a-new-coverage">4.6.3.2 Create a new <code>coverage</code></h6>
 <pre><code class="language-R">  #create coverage object
   cov &lt;- GSCoverage$new()
   cov$setName(&quot;sfdem_new&quot;)
@@ -738,7 +785,7 @@ featureType$setVirtualTable(vt)
   cov$setView(coview)
 </code></pre>
 <a name="GSCoverage-update"/>
-<h6>4.6.3.3 Update an existing <code>coverage</code></h6>
+<h6 id="4-6-3-3-update-an-existing-coverage">4.6.3.3 Update an existing <code>coverage</code></h6>
 <pre><code class="language-R">  #fetch coverage and update some properties
   cov &lt;- gsman$getCoverage(&quot;sf&quot;, &quot;sfdem&quot;, &quot;sfdem&quot;)
   cov$setAbstract(&quot;abstract updated&quot;)
@@ -748,14 +795,14 @@ featureType$setVirtualTable(vt)
   updated &lt;- gsman$updateCoverage(&quot;sf&quot;, &quot;sfdem&quot;, cov)
 </code></pre>
 <a name="GSCoverage-delete"/>
-<h6>4.6.3.4 Delete an existing <code>coverage</code></h6>
+<h6 id="4-6-3-4-delete-an-existing-coverage">4.6.3.4 Delete an existing <code>coverage</code></h6>
 <pre><code class="language-R">  deleted &lt;- gsman$deleteCoverage(&quot;sf&quot;, &quot;sfdem&quot;, &quot;sfdem&quot;, recurse = TRUE)
 </code></pre>
 <p>The <code>recurse</code> parameter allows to delete the layer published for the deleted featureType.</p>
 <a name="styles"/>
-<h4>4.7. Manage <strong>styles</strong> with GeoServer</h4>
+<h4 id="4-7-manage-styles-with-geoserver">4.7. Manage <strong>styles</strong> with GeoServer</h4>
 <a name="GSStyle-get"/>
-<h5>4.7.1 Get a (list of) <code>style</code>(s)</h5>
+<h5 id="4-7-1-get-a-list-of-style-s">4.7.1 Get a (list of) <code>style</code>(s)</h5>
 <pre><code class="language-R">  styles &lt;- gsman$getStyles()
   stylenames &lt;- gsman$getStyleNames()
   style &lt;- gsman$getStyle(&quot;capitals&quot;)
@@ -764,54 +811,54 @@ featureType$setVirtualTable(vt)
 <pre><code class="language-R">  sld &lt;- gsman$getSLDBody(&quot;capitals&quot;)
 </code></pre>
 <a name="GSStyle-create"/>
-<h5>4.7.2 Create a new <code>style</code></h5>
+<h5 id="4-7-2-create-a-new-style">4.7.2 Create a new <code>style</code></h5>
 <pre><code class="language-R">  sldFile &lt;- system.file(&quot;extdata&quot;, &quot;mystyle.sld&quot;, package = &quot;geosapi&quot;) #to use 'file' argument of gsman$createStyle
   sldStyle &lt;- xmlParse(sldFile) #to use 'sldBody' argument of gsman$createStyle
   created &lt;- gsman$createStyle(file = sldFile, name = &quot;mystyle&quot;)
 </code></pre>
 <a name="GSStyle-update"/>
-<h5>4.7.3 Update a new <code>style</code></h5>
+<h5 id="4-7-3-update-a-new-style">4.7.3 Update a new <code>style</code></h5>
 <pre><code class="language-R">  sldFile2 &lt;- system.file(&quot;extdata&quot;, &quot;mystyle2.sld&quot;, package = &quot;geosapi&quot;) #to use 'file' argument of gsman$updateStyle
   sldStyle2 &lt;- xmlParse(sldFile2) #to use 'sldBody' argument of gsman$updateStyle
   updated &lt;- gsman$updateStyle(sldBody = sldStyle2, name = &quot;mystyle&quot;)
 </code></pre>
 <a name="GSStyle-delete"/>
-<h5>4.7.4 Delete an existing <code>style</code></h5>
+<h5 id="4-7-4-delete-an-existing-style">4.7.4 Delete an existing <code>style</code></h5>
 <pre><code class="language-R">  deleted &lt;- gsman$deleteStyle(&quot;mystyle&quot;, recurse = TRUE, purge = TRUE)
 </code></pre>
 <p>All methods describe here above also support a <code>ws</code> argument where a workspace can be specified.</p>
 <a name="settings_workspaces"/>
-<h4>4.8. Manage <strong>workspace settings</strong> with GeoServer</h4>
+<h4 id="4-8-manage-workspace-settings-with-geoserver">4.8. Manage <strong>workspace settings</strong> with GeoServer</h4>
 <p>Geoserver allows to activate settings by workspace. In such case, this will overwrite the global Geoserver settings. Activating these settings is required to set-up specific OGC service capabilities par workspace (see next section).</p>
 <a name="GSWorkspaceSettings-create"/>
-<h5>4.8.1 Create a workspace settings</h5>
+<h5 id="4-8-1-create-a-workspace-settings">4.8.1 Create a workspace settings</h5>
 <p>Creating a workspace settings is equivalent to check the “Enabled” checkbox in the <em>Settings</em> section of a workspace edition page in the GeoServer UI. To create it (assuming a workspace named <code>geosapi</code>), run the following code:</p>
 <pre><code class="language-R">settings &lt;- GSWorkspaceSettings$new()
 settings$setNumDecimals(5) #custom number of decimals for data published in this workspace
 created &lt;- gsman$createWorkspaceSettings(&quot;geosapi&quot;, settings)
 </code></pre>
 <a name="GSWorkspaceSettings-get"/>
-<h5>4.8.2 Get a workspace settings</h5>
+<h5 id="4-8-2-get-a-workspace-settings">4.8.2 Get a workspace settings</h5>
 <p>To get a workspace settings, use the following code:</p>
 <pre><code class="language-R">geosapi_settings &lt;- gsman$getWorkspaceSettings(&quot;geosapi&quot;)
 </code></pre>
 <p>This method can be used in view of updating a workspace settings.</p>
 <a name="GSWorkspaceSettings-update"/>
-<h5>4.8.3 Update a workspace settings</h5>
+<h5 id="4-8-3-update-a-workspace-settings">4.8.3 Update a workspace settings</h5>
 <p>Similar method can be used for updating the workspace configuration:</p>
 <pre><code class="language-R">settings &lt;- gsman$getWorkspaceSettings(&quot;geosapi&quot;)
 settings$setNumDecimals(9) #change number of decimals
 created &lt;- gsman$updateWorkspaceSettings(&quot;geosapi&quot;, settings)
 </code></pre>
 <a name="GSWorkspaceSettings-delete"/>
-<h5>4.8.4 Delete a workspace settings</h5>
+<h5 id="4-8-4-delete-a-workspace-settings">4.8.4 Delete a workspace settings</h5>
 <p>The settings can be deleted (equivalent of unchecking the “Enabled” checkbox in a workspace settings section):</p>
 <pre><code class="language-R">deleted &lt;- gsman$deleteWorkspaceSettings(&quot;geosapi&quot;)
 </code></pre>
 <a name="settings_services"/>
-<h4>4.9 Manage OGC Service (WMS/WFS/WCS) settings with GeoServer</h4>
+<h4 id="4-9-manage-ogc-service-wms-wfs-wcs-settings-with-geoserver">4.9 Manage OGC Service (WMS/WFS/WCS) settings with GeoServer</h4>
 <a name="GSServiceSettings-get"/>
-<h5>4.9.1 Get an OGC service (WMS/WFS/WCS) settings</h5>
+<h5 id="4-9-1-get-an-ogc-service-wms-wfs-wcs-settings">4.9.1 Get an OGC service (WMS/WFS/WCS) settings</h5>
 <p>To get an OGC service settings (global, or workspace specific), geosapi offers a generic method that can be used as follows:</p>
 <pre><code class="language-R">#get WMS global settings
 wms_global_settings &lt;- gsman$getServiceSettings(service = &quot;WMS&quot;)
@@ -828,7 +875,7 @@ wms_geosapi_settings &lt;- gsman$getWmsSettings(ws = &quot;geosapi&quot;)
 </code></pre>
 <p>Analog methods are available for WFS and WCS.</p>
 <a name="GSServiceSettings-update"/>
-<h5>4.9.2 Update an OGC service (WMS/WFS/WCS) settings</h5>
+<h5 id="4-9-2-update-an-ogc-service-wms-wfs-wcs-settings">4.9.2 Update an OGC service (WMS/WFS/WCS) settings</h5>
 <p>OGC service settings can be updated, for example to activate/deactivate the service and fill minimum metadata (name, title, abstract). The following examples shows how to do update WMS global configuration and by workspace:</p>
 <ul>
 <li>Update the WMS global configuration:</li>
@@ -851,7 +898,7 @@ updated &lt;- gsman$updateServiceSettings(wmsSettings, service = &quot;WMS&quot;
 <p>The last code line above could be replaced by the shortcut method:</p>
 <p><code>updated &lt;- gsman$updateWmsSettings(wmsSettings, ws = &quot;geosapi&quot;)</code></p>
 <a name="GSServiceSettings-enable"/>
-<h5>4.9.3 Enable/Disable an OGC service (WMS/WFS/WCS)</h5>
+<h5 id="4-9-3-enable-disable-an-ogc-service-wms-wfs-wcs">4.9.3 Enable/Disable an OGC service (WMS/WFS/WCS)</h5>
 <p>To make OGC service enabling/disabling easier for users, additional shortcut methods were set-up in geosapi. The following code examples show you how to enable/disable WMS/WFS/WCS</p>
 <ul>
 <li>Enable/Disable Global OGC services</li>
@@ -881,20 +928,11 @@ gsman$disableWFS(&quot;geosapi&quot;)
 gsman$disableWCS(&quot;geosapi&quot;)
 </code></pre>
 <a name="package_issues"/>
-<h3>5. Issue reporting</h3>
+<h3 id="5-issue-reporting">5. Issue reporting</h3>
 <hr />
 <p>Issues can be reported at <a href="https://github.com/eblondel/geosapi/issues">https://github.com/eblondel/geosapi/issues</a></p>
-
 </div>
-
-<div class="include-after">
-
-</div>
-
-<script src="https://cdn.jsdelivr.net/combine/npm/@xiee/utils/js/center-img.min.js" async></script>
-<script>
-
-</script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" defer></script>
 </body>
-
 </html>
