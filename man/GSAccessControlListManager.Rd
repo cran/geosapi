@@ -41,6 +41,13 @@ Emmanuel Blondel <emmanuel.blondel1@gmail.com>
 \item \href{#method-GSAccessControlListManager-setCatalogMode}{\code{GSAccessControlListManager$setCatalogMode()}}
 \item \href{#method-GSAccessControlListManager-getCatalogMode}{\code{GSAccessControlListManager$getCatalogMode()}}
 \item \href{#method-GSAccessControlListManager-getRules}{\code{GSAccessControlListManager$getRules()}}
+\item \href{#method-GSAccessControlListManager-getLayerRules}{\code{GSAccessControlListManager$getLayerRules()}}
+\item \href{#method-GSAccessControlListManager-getServiceRules}{\code{GSAccessControlListManager$getServiceRules()}}
+\item \href{#method-GSAccessControlListManager-getRestRules}{\code{GSAccessControlListManager$getRestRules()}}
+\item \href{#method-GSAccessControlListManager-getRule}{\code{GSAccessControlListManager$getRule()}}
+\item \href{#method-GSAccessControlListManager-getLayerRule}{\code{GSAccessControlListManager$getLayerRule()}}
+\item \href{#method-GSAccessControlListManager-getServiceRule}{\code{GSAccessControlListManager$getServiceRule()}}
+\item \href{#method-GSAccessControlListManager-getRestRule}{\code{GSAccessControlListManager$getRestRule()}}
 \item \href{#method-GSAccessControlListManager-addRule}{\code{GSAccessControlListManager$addRule()}}
 \item \href{#method-GSAccessControlListManager-addLayerRule}{\code{GSAccessControlListManager$addLayerRule()}}
 \item \href{#method-GSAccessControlListManager-addServiceRule}{\code{GSAccessControlListManager$addServiceRule()}}
@@ -129,18 +136,145 @@ the list of rules for a given domain
 }
 }
 \if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-GSAccessControlListManager-getLayerRules"></a>}}
+\if{latex}{\out{\hypertarget{method-GSAccessControlListManager-getLayerRules}{}}}
+\subsection{Method \code{getLayerRules()}}{
+Method to get the list of 'layers' rules
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{GSAccessControlListManager$getLayerRules()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+the list of 'layers' rules
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-GSAccessControlListManager-getServiceRules"></a>}}
+\if{latex}{\out{\hypertarget{method-GSAccessControlListManager-getServiceRules}{}}}
+\subsection{Method \code{getServiceRules()}}{
+Method to get the list of 'services' rules
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{GSAccessControlListManager$getServiceRules()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+the list of 'services' rules
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-GSAccessControlListManager-getRestRules"></a>}}
+\if{latex}{\out{\hypertarget{method-GSAccessControlListManager-getRestRules}{}}}
+\subsection{Method \code{getRestRules()}}{
+Method to get the list of 'rest' rules
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{GSAccessControlListManager$getRestRules()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+the list of 'rest' rules
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-GSAccessControlListManager-getRule"></a>}}
+\if{latex}{\out{\hypertarget{method-GSAccessControlListManager-getRule}{}}}
+\subsection{Method \code{getRule()}}{
+Method to get a rule by resource
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{GSAccessControlListManager$getRule(
+  domain = c("layers", "services", "rest"),
+  resource
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{domain}}{the access control domain}
+
+\item{\code{resource}}{resource}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+an object of class \link{GSRule} or \code{NULL} if no rule is found
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-GSAccessControlListManager-getLayerRule"></a>}}
+\if{latex}{\out{\hypertarget{method-GSAccessControlListManager-getLayerRule}{}}}
+\subsection{Method \code{getLayerRule()}}{
+Method to get a 'layers' rule
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{GSAccessControlListManager$getLayerRule(resource)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{resource}}{resource}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+an object of class \link{GSLayerRule} or \code{NULL} if no rule is found
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-GSAccessControlListManager-getServiceRule"></a>}}
+\if{latex}{\out{\hypertarget{method-GSAccessControlListManager-getServiceRule}{}}}
+\subsection{Method \code{getServiceRule()}}{
+Method to get a 'services' rule
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{GSAccessControlListManager$getServiceRule(resource)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{resource}}{resource}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+an object of class \link{GSServiceRule} or \code{NULL} if no rule is found
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-GSAccessControlListManager-getRestRule"></a>}}
+\if{latex}{\out{\hypertarget{method-GSAccessControlListManager-getRestRule}{}}}
+\subsection{Method \code{getRestRule()}}{
+Method to get a 'rest' rule
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{GSAccessControlListManager$getRestRule(resource)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{resource}}{resource}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+an object of class \link{GSRestRule} or \code{NULL} if no rule is found
+}
+}
+\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-GSAccessControlListManager-addRule"></a>}}
 \if{latex}{\out{\hypertarget{method-GSAccessControlListManager-addRule}{}}}
 \subsection{Method \code{addRule()}}{
 Generic method to add an access control rule
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{GSAccessControlListManager$addRule(rule)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{GSAccessControlListManager$addRule(rule, position = c("first", "last"))}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{rule}}{object of class \link{GSRule}}
+
+\item{\code{position}}{position with the list of rules, either "first" or "last". The position
+is especially true to capture to the order of priority. For priority, put 'first'.}
 }
 \if{html}{\out{</div>}}
 }
@@ -156,7 +290,7 @@ Adds an access control layer rule
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{GSAccessControlListManager$addLayerRule(
   ws = NULL,
-  lyr,
+  lyr = "*",
   permission = c("r", "w", "a"),
   roles
 )}\if{html}{\out{</div>}}
@@ -216,12 +350,7 @@ Adds an access control service rule
 \subsection{Method \code{addRestRule()}}{
 Adds an access control rest rule
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{GSAccessControlListManager$addRestRule(
-  pattern,
-  methods,
-  permission = c("r", "w", "a"),
-  roles
-)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{GSAccessControlListManager$addRestRule(pattern = "/**", methods, roles)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -230,8 +359,6 @@ Adds an access control rest rule
 \item{\code{pattern}}{a URL Ant pattern, only applicable for domain \code{rest}. Default is \code{/**}}
 
 \item{\code{methods}}{HTTP method(s)}
-
-\item{\code{permission}}{the rule permission, either \code{r} (read), \code{w} (write) or \code{a} (administer)}
 
 \item{\code{roles}}{one or more roles to add for the rule}
 }
@@ -247,13 +374,16 @@ Adds an access control rest rule
 \subsection{Method \code{modifyRule()}}{
 Generic method to modify an access control rule
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{GSAccessControlListManager$modifyRule(rule)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{GSAccessControlListManager$modifyRule(rule, position = c("first", "last"))}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{rule}}{object of class \link{GSRule}}
+
+\item{\code{position}}{position with the list of rules, either "first" or "last". The position
+is especially true to capture to the order of priority. For priority, put 'first'.}
 }
 \if{html}{\out{</div>}}
 }

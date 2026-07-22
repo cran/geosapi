@@ -117,10 +117,66 @@ GSAccessControlListManager <- R6Class("GSAccessControlListManager",
       return(rules)
     },
     
+    #'@description Method to get the list of 'layers' rules
+    #'@return the list of 'layers' rules
+    getLayerRules = function(){
+      self$getRules(domain = 'layers')
+    },
+    
+    #'@description Method to get the list of 'services' rules
+    #'@return the list of 'services' rules
+    getServiceRules = function(){
+      self$getRules(domain = 'services')
+    },
+    
+    #'@description Method to get the list of 'rest' rules
+    #'@return the list of 'rest' rules
+    getRestRules = function(){
+      self$getRules(domain = 'rest')
+    },
+    
+    #'@description Method to get a rule by resource
+    #'@param domain the access control domain
+    #'@param resource resource
+    #'@return an object of class \link{GSRule} or \code{NULL} if no rule is found
+    getRule = function(domain = c("layers", "services", "rest"), resource){
+      out = NULL
+      domain = match.arg(domain)
+      rules = self$getRules(domain = domain)
+      rules = rules[sapply(rules, function(x){x$attrs$resource == resource})]
+      if(length(rules)>0) out = rules[[1]]
+      return(out)
+    },
+    
+    #'@description Method to get a 'layers' rule
+    #'@param resource resource
+    #'@return an object of class \link{GSLayerRule} or \code{NULL} if no rule is found
+    getLayerRule = function(resource){
+      self$getRule(domain = 'layers', resource = resource)
+    },
+    
+    #'@description Method to get a 'services' rule
+    #'@param resource resource
+    #'@return an object of class \link{GSServiceRule} or \code{NULL} if no rule is found
+    getServiceRule = function(resource){
+      self$getRule(domain = 'services', resource = resource)
+    },
+    
+    #'@description Method to get a 'rest' rule
+    #'@param resource resource
+    #'@return an object of class \link{GSRestRule} or \code{NULL} if no rule is found
+    getRestRule = function(resource){
+      self$getRule(domain = 'rest', resource = resource)
+    },
+    
     #'@description Generic method to add an access control rule
     #'@param rule object of class \link{GSRule}
+    #'@param position position with the list of rules, either "first" or "last". The position
+    #'is especially true to capture to the order of priority. For priority, put 'first'.
     #'@return \code{TRUE} if added, \code{FALSE} otherwise
-    addRule = function(rule){
+    addRule = function(rule, position = c("first", "last")){
+      
+      position = match.arg(position)
 
       if(!is(rule, "GSRule")){
         msg = "Argument 'rule' should be an object of class 'GSLayerRule', 'GSServiceRule', or 'GSRestRule'"
@@ -162,6 +218,11 @@ GSAccessControlListManager <- R6Class("GSAccessControlListManager",
         cli::cli_alert_danger(err)
         self$ERROR(err)
       }
+      
+      if(position == "first"){
+        self$modifyRule(rule, position = position)
+      }
+      
       return(created)
     },
     
@@ -172,7 +233,7 @@ GSAccessControlListManager <- R6Class("GSAccessControlListManager",
     #'@param roles one or more roles to add for the rule
     #'@return \code{TRUE} if added, \code{FALSE} otherwise
     addLayerRule = function(
-      ws = NULL, lyr,
+      ws = NULL, lyr = "*",
       permission = c("r","w","a"), 
       roles){
       
@@ -180,7 +241,7 @@ GSAccessControlListManager <- R6Class("GSAccessControlListManager",
       
       #checks on workspace (if any) and layer
       if(!is.null(self$getWorkspace)){ #assumes parent GSManager is used
-        if(!is.null(ws)){
+        if(!is.null(ws)) if(ws != "*"){
           ws_obj = self$getWorkspace(ws)
           if(is.null(ws_obj)){
             err = sprintf("No workspace '%s'", ws)
@@ -190,17 +251,19 @@ GSAccessControlListManager <- R6Class("GSAccessControlListManager",
           }
         }
         
-        lyr_obj = self$getLayer(lyr = lyr)
-        if(is.null(lyr_obj)){
-          err = sprintf("No layer '%s.'", lyr)
-          cli::cli_alert_danger(err)
-          self$ERROR(err)
-          return(FALSE)
+        if(lyr != "*"){
+          lyr_obj = self$getLayer(lyr = lyr)
+          if(is.null(lyr_obj)){
+            err = sprintf("No layer '%s.'", lyr)
+            cli::cli_alert_danger(err)
+            self$ERROR(err)
+            return(FALSE)
+          }
         }
       }
       
       rule <- GSLayerRule$new(
-        ws = ws, target = lyr,
+        ws = ws, lyr = lyr,
         permission = permission,
         roles = roles
       )
@@ -235,19 +298,14 @@ GSAccessControlListManager <- R6Class("GSAccessControlListManager",
     #'@description Adds an access control rest rule
     #'@param pattern a URL Ant pattern, only applicable for domain \code{rest}. Default is \code{/**}
     #'@param methods HTTP method(s)
-    #'@param permission the rule permission, either \code{r} (read), \code{w} (write) or \code{a} (administer)
     #'@param roles one or more roles to add for the rule
     #'@return \code{TRUE} if added, \code{FALSE} otherwise
     addRestRule = function(
-      pattern, methods,
-      permission = c("r","w","a"), 
+      pattern = "/**", methods,
       roles){
-      
-      permission = match.arg(permission)
       
       rule <- GSRestRule$new(
         pattern = pattern, methods = methods,
-        permission = permission,
         roles = roles
       )
       
@@ -257,8 +315,10 @@ GSAccessControlListManager <- R6Class("GSAccessControlListManager",
     
     #'@description Generic method to modify an access control rule
     #'@param rule object of class \link{GSRule}
+    #'@param position position with the list of rules, either "first" or "last". The position
+    #'is especially true to capture to the order of priority. For priority, put 'first'.
     #'@return \code{TRUE} if modified, \code{FALSE} otherwise
-    modifyRule = function(rule){
+    modifyRule = function(rule, position = c("first", "last")){
       
       if(!is(rule, "GSRule")){
         msg = "Argument 'rule' should be an object of class 'GSLayerRule', 'GSServiceRule', or 'GSRestRule'"
@@ -273,18 +333,34 @@ GSAccessControlListManager <- R6Class("GSAccessControlListManager",
                        "GSRestRule" = "rest"
       )
       
-      msg = sprintf("Modify %s rule for resource '%s'", domain, rule$attrs$resource)
+      resource = rule$attrs$resource
+      msg = sprintf("Modify %s rule for resource '%s'", domain, resource)
       cli::cli_alert_info(msg)
       self$INFO(msg)
       
       modified <- FALSE
+      if(domain == "rest"){
+        resource = gsub("/", URLencode("/",reserved = T), gsub(":",";",resource))
+      }
       req <- GSUtils$PUT(
         url = self$getUrl(), user = private$user,
         pwd = private$keyring_backend$get(service = private$keyring_service, username = private$user),
         path = sprintf("/security/acl/%s.xml", domain),
         content = {
           xml = xml2::xml_new_root("rules")
-          xml2::xml_add_child(xml, rule$encode())
+          rules = self$getRules(domain = domain)
+          rules = rules[sapply(rules, function(x){x$attrs$resource != rule$attrs$resource})]
+          switch(position,
+            "first" = {
+              rules = c(rule, rules)
+            },
+            "last" = {
+              rules = c(rules, rule)
+            }
+          )
+          for(arule in rules){
+            xml2::xml_add_child(xml, arule$encode())
+          }
           gsub("[\r\n ] ", "", as(xml, "character"))
         },
         contentType = "application/xml",
@@ -329,7 +405,7 @@ GSAccessControlListManager <- R6Class("GSAccessControlListManager",
      
       deleted <- FALSE
       if(domain == "rest"){
-        resource = gsub("/", URLencode("/",reserved = T), resource)
+        resource = gsub("/", URLencode("/",reserved = T), gsub(":",";",resource))
       }
       path <- sprintf("/security/acl/%s/%s", domain, resource)
       req <- GSUtils$DELETE(self$getUrl(), private$user, 
